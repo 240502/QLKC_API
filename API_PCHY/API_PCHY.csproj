@@ -28,8 +28,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\KIM_CHI\C3_GIAONHAN_TEMCHI\" />
-    <Folder Include="Models\KIM_CHI\C3_GIAONHAN_TEMCHI\" />
     <Folder Include="wwwroot\images\" />
   </ItemGroup>
 

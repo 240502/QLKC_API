@@ -1,5 +1,4 @@
 ﻿using APIPCHY_PhanQuyen.Models.QLKC.D_KIM;
-using APIPCHY_PhanQuyen.Models.QLKC.HT_NHOMQUYEN;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
