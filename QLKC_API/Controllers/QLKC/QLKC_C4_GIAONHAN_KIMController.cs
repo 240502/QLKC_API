@@ -83,7 +83,6 @@ namespace API_PCHY.Controllers.QUAN_TRI.QLKC_C4_GIAONHAN_KIM
         public IActionResult update_kyC1_PQT_QLKC_C4_GIAONHAN_KIM(int id)
         {
             string result = db.update_kyC1_PQT_QLKC_C4_GIAONHAN_KIM(id);
-
             return string.IsNullOrEmpty(result) ? Ok("Ký thành công") : BadRequest(result);
         }
 
@@ -189,7 +188,6 @@ namespace API_PCHY.Controllers.QUAN_TRI.QLKC_C4_GIAONHAN_KIM
                 return BadRequest(new { Error = result });
             }
         }
-
         [Route("search_C4_GIAONHAN_KIM")]
         [HttpPost]
         public IActionResult search_C4_GIAONHAN_KIM([FromBody] Dictionary<string, object> formData)
@@ -202,6 +200,8 @@ namespace API_PCHY.Controllers.QUAN_TRI.QLKC_C4_GIAONHAN_KIM
                 string doN_VI_NHAN = null;
                 int? tranG_THAI = null;
                 string? loai = null;
+                DateTime? ngaY_GIAO = null;
+                DateTime? ngaY_NHAN = null;
                 if (formData.TryGetValue("pageIndex", out var pageIndexValue) && int.TryParse(pageIndexValue?.ToString(), out var parsedPageIndex))
                 {
                     pageIndex = parsedPageIndex;
@@ -232,9 +232,20 @@ namespace API_PCHY.Controllers.QUAN_TRI.QLKC_C4_GIAONHAN_KIM
                     loai = loaiValue?.ToString();
                 }
 
+                if (formData.TryGetValue("ngaY_GIAO", out var ngaY_GIAOValue))
+                {
+                    ngaY_GIAO = DateTime.Parse(ngaY_GIAOValue?.ToString()); // Gán giá trị cho ngaY_GIAO
+                }
+
+                if (formData.TryGetValue("ngaY_NHAN", out var ngaY_NHANValue))
+                {
+                    ngaY_NHAN = DateTime.Parse(ngaY_NHANValue?.ToString()); // Gán giá trị cho ngaY_NHAN
+                }
+
+
 
                 int totalItems = 0;
-                List<QLKC_C4_GIAONHAN_KIM_Model> result = db.search_C4_GIAONHAN_KIM(pageIndex, pageSize, doN_VI_GIAO, doN_VI_NHAN, tranG_THAI, loai, out totalItems);
+                List<QLKC_C4_GIAONHAN_KIM_Model> result = db.search_C4_GIAONHAN_KIM(pageIndex, pageSize, doN_VI_GIAO, doN_VI_NHAN, tranG_THAI, loai, ngaY_GIAO, ngaY_NHAN, out totalItems);
                 return result != null ? Ok(new
                 {
                     page = pageIndex,
@@ -245,6 +256,8 @@ namespace API_PCHY.Controllers.QUAN_TRI.QLKC_C4_GIAONHAN_KIM
                     doN_VI_NHAN = doN_VI_NHAN,
                     tranG_THAI = tranG_THAI,
                     loai = loai,
+                    ngaY_GIAO = ngaY_GIAO,
+                    ngaY_NHAN = ngaY_NHAN,
                 }) : NotFound();
 
 

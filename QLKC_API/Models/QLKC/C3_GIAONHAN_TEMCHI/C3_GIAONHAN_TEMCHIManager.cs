@@ -7,8 +7,49 @@ using APIPCHY_PhanQuyen.Models.QLKC.C3_GIAONHAN_TEMCHI;
 namespace APIPCHY_PhanQuyen.Models.QLKC.C3_GIAONHAN_TEMCHI
 {
     public class C3_GIAONHAN_TEMCHI_Manager
+
     {
         DataHelper helper = new DataHelper();
+        public List<C3_GIAONHAN_TEMCHI_Model> getALL_QLKC_C3_GIAONHAN_TEMCHI()
+        {
+            try
+            {
+                DataTable ds = helper.ExcuteReader("PKG_QLKC_SANG.getAll_QLKC_C3_GIAONHAN_TEMCHI");
+                List<C3_GIAONHAN_TEMCHI_Model> result = new List<C3_GIAONHAN_TEMCHI_Model>();
+                if (ds != null)
+                {
+                    for (int i = 0; i < ds.Rows.Count; i++)
+                    {
+                        C3_GIAONHAN_TEMCHI_Model tcgn = new C3_GIAONHAN_TEMCHI_Model();
+
+                        tcgn.id = int.Parse(ds.Rows[i]["ID"].ToString());
+
+                        tcgn.so_luong = ds.Rows[i]["SOLUONG"] != DBNull.Value ? int.Parse(ds.Rows[i]["SOLUONG"].ToString()) : null;
+                        tcgn.loai = ds.Rows[i]["LOAI"] != DBNull.Value ? ds.Rows[i]["LOAI"].ToString() : null;
+                        tcgn.donvi_tinh = ds.Rows[i]["DONVI_TINH"] != DBNull.Value ? ds.Rows[i]["DONVI_TINH"].ToString() : null;
+                        tcgn.don_vi_giao = ds.Rows[i]["DON_VI_GIAO"] != DBNull.Value ? ds.Rows[i]["DON_VI_GIAO"].ToString() : null;
+                        tcgn.don_vi_nhan = ds.Rows[i]["DON_VI_NHAN"] != DBNull.Value ? ds.Rows[i]["DON_VI_NHAN"].ToString() : null;
+                        tcgn.nguoi_nhan = ds.Rows[i]["NGUOI_NHAN"] != DBNull.Value ? ds.Rows[i]["NGUOI_NHAN"].ToString() : null;
+                        tcgn.nguoi_giao = ds.Rows[i]["NGUOI_GIAO"] != DBNull.Value ? ds.Rows[i]["NGUOI_GIAO"].ToString() : null;
+                        tcgn.ngay_giao = ds.Rows[i]["NGAY_GIAO"] != DBNull.Value ? DateTime.Parse(ds.Rows[i]["NGAY_GIAO"].ToString()) : null;
+                        tcgn.ngay_nhan = ds.Rows[i]["NGAY_NHAN"] != DBNull.Value ? DateTime.Parse(ds.Rows[i]["NGAY_NHAN"].ToString()) : null;
+                        tcgn.trang_thai = ds.Rows[i]["TRANG_THAI"] != DBNull.Value ? int.Parse(ds.Rows[i]["TRANG_THAI"].ToString()) : null;
+                        tcgn.loai_bban = ds.Rows[i]["LOAI_BBAN"] != DBNull.Value ? int.Parse(ds.Rows[i]["LOAI_BBAN"].ToString()) : null;
+
+                        result.Add(tcgn);
+                    }
+                }
+                else
+                {
+                    result = null;
+                }
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
         public string insert_QLKC_C3_GIAONHAN_TEMCHI(C3_GIAONHAN_TEMCHI_Model tcgn)
         {
             try

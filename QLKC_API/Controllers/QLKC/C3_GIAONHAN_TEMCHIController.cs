@@ -1,15 +1,32 @@
-﻿using APIPCHY_PhanQuyen.Models.QLKC.C3_GIAONHAN_TEMCHI;
+﻿using API_PCHY.Models.QLKC.D_KIM;
+using APIPCHY_PhanQuyen.Models.QLKC.C3_GIAONHAN_TEMCHI;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 namespace API_PCHY.Controllers.QLKC
 {
-    [Route("API_PCHY/[controller]")]
+    [Route("APIPCHY/[controller]")]
     [ApiController]
     public class C3_GIAONHAN_TEMCHIController : ControllerBase
     {
         C3_GIAONHAN_TEMCHI_Manager db = new C3_GIAONHAN_TEMCHI_Manager();
+
+    
+        [HttpGet("getAll_QLKC_C3_GIAONHAN_TEMCHI")]
+        public ActionResult Get()
+        {
+            try
+            {
+                List<C3_GIAONHAN_TEMCHI_Model> result = db.getALL_QLKC_C3_GIAONHAN_TEMCHI();
+
+                return result != null ? Ok(result) : NotFound();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
 
         [Route("insert_QLKC_C3_GIAONHAN_TEMCHI")]
         [HttpPost]

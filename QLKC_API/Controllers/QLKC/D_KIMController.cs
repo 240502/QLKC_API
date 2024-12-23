@@ -10,7 +10,21 @@ namespace API_PCHY.Controllers.QLKC
     public class D_KIMController : ControllerBase
     {
             D_KIMManager db = new D_KIMManager();
-            [Route("insert_D_KIM")]
+            [HttpGet("getAll_D_KIM")]
+            public ActionResult Get()
+            {
+                try
+                {
+                    List<D_KIMModel> result = db.getALL_D_KIM();
+
+                    return result != null ? Ok(result) : NotFound();
+                }
+                catch (Exception ex)
+                {
+                    return BadRequest(ex.Message);
+                }
+            }
+        [Route("insert_D_KIM")]
             [HttpPost]
             public IActionResult insert_D_KIM([FromBody] D_KIMModel d_KIM)
             {
