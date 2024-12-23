@@ -107,7 +107,44 @@ namespace API_PCHY.Models.QLKC.D_KIM
                 throw ex;
             }
         }
+        public List<D_KIMModel> getALL_D_KIM()
+        {
+            try
+            {
+                DataTable ds = helper.ExcuteReader("PKG_QLKC_NGOCANH.getAll_QLKC_D_KIM");
+                List<D_KIMModel> result = new List<D_KIMModel>();
+                if (ds != null)
+                {
+                    for (int i = 0; i < ds.Rows.Count; i++)
+                    {
+                        D_KIMModel d = new D_KIMModel();
 
+                        d.id_kim = int.Parse(ds.Rows[i]["ID_KIM"].ToString());
+
+                        d.loai_ma_kim = ds.Rows[i]["LOAI_MA_KIM"] != DBNull.Value ? int.Parse(ds.Rows[i]["LOAI_MA_KIM"].ToString()) : null;
+                        d.thoi_han = ds.Rows[i]["THOI_HAN"] != DBNull.Value ? DateTime.Parse(ds.Rows[i]["THOI_HAN"].ToString()) : null;
+                        d.trang_thai = ds.Rows[i]["TRANG_THAI"] != DBNull.Value ? int.Parse(ds.Rows[i]["TRANG_THAI"].ToString()) : null;
+                        d.ma_hieu = ds.Rows[i]["MA_HIEU"] != DBNull.Value ? ds.Rows[i]["MA_HIEU"].ToString() : null;
+                        d.nguoi_tao = ds.Rows[i]["NGUOI_TAO"] != DBNull.Value ? ds.Rows[i]["NGUOI_TAO"].ToString() : null;
+                        d.ma_dviqly = ds.Rows[i]["MA_DVIQLY"] != DBNull.Value ? ds.Rows[i]["MA_DVIQLY"].ToString() : null;
+                        d.ngay_tao = ds.Rows[i]["NGAY_TAO"] != DBNull.Value ? DateTime.Parse(ds.Rows[i]["NGAY_TAO"].ToString()) : null;
+                        d.nguoi_sua = ds.Rows[i]["NGUOI_SUA"] != DBNull.Value ? ds.Rows[i]["NGUOI_SUA"].ToString() : null;
+                        d.ngay_sua = ds.Rows[i]["NGAY_SUA"] != DBNull.Value ? DateTime.Parse(ds.Rows[i]["NGAY_SUA"].ToString()) : null;
+
+                        result.Add(d);
+                    }
+                }
+                else
+                {
+                    result = null;
+                }
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
         public D_KIMModel get_D_KIM_ByID(int id_kim)
         {
             try

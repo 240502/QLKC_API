@@ -286,12 +286,12 @@ namespace API_PCHY.Models.QUAN_TRI.QLKC_C4_GIAONHAN_KIM
                 throw;
             }
         }
-        public List<QLKC_C4_GIAONHAN_KIM_Model> search_C4_GIAONHAN_KIM(int? pageIndex, int? pageSize, string? DON_VI_GIAO, string? DON_VI_NHAN, int? TRANG_THAI, string? LOAI, out int totalItems)
+        public List<QLKC_C4_GIAONHAN_KIM_Model> search_C4_GIAONHAN_KIM(int? pageIndex, int? pageSize, string? DON_VI_GIAO, string? DON_VI_NHAN, int? TRANG_THAI, string? LOAI, DateTime? NGAY_GIAO, DateTime? NGAY_NHAN, out int totalItems)
         {
             totalItems = 0;
             try
             {
-                DataTable db = helper.ExcuteReader("PKG_QLKC_KIEN.search_C4_GIAONHAN_KIM", "p_page_index", "p_page_size", "p_DON_VI_GIAO", "p_DON_VI_NHAN", "p_TRANG_THAI", "p_LOAI", pageIndex, pageSize, DON_VI_GIAO, DON_VI_NHAN, TRANG_THAI, LOAI);
+                DataTable db = helper.ExcuteReader("PKG_QLKC_KIEN.search_C4_GIAONHAN_KIM", "p_page_index", "p_page_size", "p_DON_VI_GIAO", "p_DON_VI_NHAN", "p_TRANG_THAI", "p_LOAI", "p_NGAY_GIAO", "p_NGAY_NHAN", pageIndex, pageSize, DON_VI_GIAO, DON_VI_NHAN, TRANG_THAI, LOAI, NGAY_GIAO, NGAY_NHAN);
 
                 if (db != null)
                 {
