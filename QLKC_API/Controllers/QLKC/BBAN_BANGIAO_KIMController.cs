@@ -77,7 +77,30 @@ namespace API_PCHY.Controllers.QLKC
                 return BadRequest(ex.Message);
             }
         }
-
+        [Route("update_NguoiNhan_BBAN_BANGGIAO_KIM")]
+        [HttpPut]
+        public IActionResult update_NguoiNhan_BBAN_BANGGIAO_KIM([FromBody] Dictionary<string,object> formData)
+        {
+            try
+            {
+                int? bienban_id = null;
+                string? ht_nguoidung_id = null;
+                if (formData.Keys.Contains("ht_nguoidung_id") && !string.IsNullOrEmpty(formData["ht_nguoidung_id"].ToString()))
+                {
+                    ht_nguoidung_id = formData["ht_nguoidung_id"].ToString();
+                }
+                if (formData.Keys.Contains("bienban_id") && !string.IsNullOrEmpty(formData["bienban_id"].ToString()))
+                {
+                    bienban_id = int.Parse(formData["bienban_id"].ToString());
+                }
+                string result = manager.update_NguoiNhan_BBAN_BANGGIAO_KIM(ht_nguoidung_id, bienban_id);
+                return String.IsNullOrEmpty(result) ? Ok("success") : BadRequest(result);
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
         [Route("get_BBAN_BANGIAO_KIMByIdBBan")]
         [HttpGet]
         public IActionResult get_BBAN_BANGIAO_KIMByIdBBan(int id_bban)

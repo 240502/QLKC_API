@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System;
+using iTextSharp.text;
 
 namespace APIPCHY_PhanQuyen.Models.QLKC.DM_PHONGBAN
 {
@@ -62,6 +63,46 @@ namespace APIPCHY_PhanQuyen.Models.QLKC.DM_PHONGBAN
             }
         }
 
+        public List<DM_PHONGBAN_Model> get_DM_PHONGBANByMA_DVI_QLY(string? ma_dviqly)
+        {
+            try
+            {
+                DataTable ds = helper.ExcuteReader("PKG_QLKC_SANG.get_DM_PHONGBANByMA_DVI_QLY", "p_MA_DVIQLY", ma_dviqly);
+                if(ds.Rows.Count > 0)
+                {
+                    List<DM_PHONGBAN_Model> reuslts = new List<DM_PHONGBAN_Model> ();
+                    for (int i = 0; i < ds.Rows.Count; i++)
+                    {
+                        DM_PHONGBAN_Model dM_PHONGBAN = new DM_PHONGBAN_Model();
+                        dM_PHONGBAN.id = ds.Rows[i]["ID"].ToString();
+                        dM_PHONGBAN.ma = ds.Rows[i]["MA"] != DBNull.Value ? ds.Rows[i]["MA"].ToString() : null;
+                        dM_PHONGBAN.ten = ds.Rows[i]["TEN"] != DBNull.Value ? ds.Rows[i]["TEN"].ToString() : null;
+                        dM_PHONGBAN.trang_thai = ds.Rows[i]["TRANG_THAI"] != DBNull.Value ? int.Parse(ds.Rows[i]["TRANG_THAI"].ToString()) : null;
+                        dM_PHONGBAN.sap_xep = ds.Rows[i]["SAP_XEP"] != DBNull.Value ? float.Parse(ds.Rows[i]["SAP_XEP"].ToString()) : null;
+                        dM_PHONGBAN.ngay_tao = ds.Rows[i]["NGAY_TAO"] != DBNull.Value ? DateTime.Parse(ds.Rows[i]["NGAY_TAO"].ToString()) : null;
+                        dM_PHONGBAN.nguoi_tao = ds.Rows[i]["NGUOI_TAO"] != DBNull.Value ? ds.Rows[i]["NGUOI_TAO"].ToString() : null;
+                        dM_PHONGBAN.ngay_cap_nhat = ds.Rows[i]["NGAY_CAP_NHAT"] != DBNull.Value ? DateTime.Parse(ds.Rows[i]["NGAY_CAP_NHAT"].ToString()) : null;
+                        dM_PHONGBAN.nguoi_cap_nhat = ds.Rows[i]["NGUOI_CAP_NHAT"] != DBNull.Value ? ds.Rows[i]["NGUOI_CAP_NHAT"].ToString() : null;
+                        dM_PHONGBAN.dm_donvi_id = ds.Rows[i]["DM_DONVI_ID"] != DBNull.Value ? ds.Rows[i]["DM_DONVI_ID"].ToString() : null;
+                        dM_PHONGBAN.dm_phongban_id = ds.Rows[i]["DM_PHONGBAN_ID"] != DBNull.Value ? ds.Rows[i]["DM_PHONGBAN_ID"].ToString() : null;
+                        dM_PHONGBAN.db_maphongban = ds.Rows[i]["DB_MAPHONGBAN"] != DBNull.Value ? ds.Rows[i]["DB_MAPHONGBAN"].ToString() : null;
+                        dM_PHONGBAN.db_ngay = ds.Rows[i]["DB_NGAY"] != DBNull.Value ? DateTime.Parse(ds.Rows[i]["DB_NGAY"].ToString()) : null;
+                        dM_PHONGBAN.ma_dviqly = ds.Rows[i]["MA_DVIQLY"] != DBNull.Value ? ds.Rows[i]["MA_DVIQLY"].ToString() : null;
+                        dM_PHONGBAN.ten_dviqly = ds.Rows[i]["TEN_DVIQLY"] != DBNull.Value ? ds.Rows[i]["TEN_DVIQLY"].ToString() : null;
+                        reuslts.Add(dM_PHONGBAN);
+
+                    }
+                    return reuslts;
+                }
+                else
+                {
+                    return null; 
+                }
+            }catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
         public List<DM_PHONGBAN_Model> search_DM_PHONGBANByID(int? pageIndex, int? pageSize, string ten, string ma, int? trang_thai, string ma_dviqly, out int totalItems)
         {
             totalItems = 0;

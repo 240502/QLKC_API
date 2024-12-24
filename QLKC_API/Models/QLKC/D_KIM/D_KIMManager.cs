@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System;
 using System.Data;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace API_PCHY.Models.QLKC.D_KIM
 {
@@ -56,6 +57,53 @@ namespace API_PCHY.Models.QLKC.D_KIM
             }
             catch (Exception ex)
             {
+                throw ex;
+            }
+        }
+        public string update_MADVIQLY_D_KIM(string htNguoiDungId, string idKim , string ma_dvigiao)
+        {
+            try
+            {
+                string result = helper.ExcuteNonQuery(
+                  "PKG_QLKC_SANG.update_MADVIQLY_D_KIM", "p_Error", "p_HT_NGUOIDUNG_ID", "p_ID_KIM", "p_MADVI_GIAO", htNguoiDungId,idKim,ma_dvigiao
+                  );
+                return result;
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<D_KIMModel> get_ALL_D_KIMByMA_DVIQLY(string ma_dviqly)
+        {
+            try
+            {
+                DataTable ds = helper.ExcuteReader("PKG_QLKC_SANG.get_ALL_D_KIMByMA_DVIQLY", "p_MA_DVIQLY", ma_dviqly);
+                if(ds.Rows.Count > 0)
+                {
+                    List<D_KIMModel> list = new List<D_KIMModel>();
+                    for (int i = 0; i < ds.Rows.Count; i++)
+                    {
+                        D_KIMModel d = new D_KIMModel();
+                        d.id_kim = int.Parse(ds.Rows[i]["ID_KIM"].ToString());
+                        d.loai_ma_kim = ds.Rows[i]["LOAI_MA_KIM"] != DBNull.Value ? int.Parse(ds.Rows[i]["LOAI_MA_KIM"].ToString()) : null;
+                        d.thoi_han = ds.Rows[i]["THOI_HAN"] != DBNull.Value ? DateTime.Parse(ds.Rows[i]["THOI_HAN"].ToString()) : null;
+                        d.trang_thai = ds.Rows[i]["TRANG_THAI"] != DBNull.Value ? int.Parse(ds.Rows[i]["TRANG_THAI"].ToString()) : null;
+                        d.ma_hieu = ds.Rows[i]["MA_HIEU"] != DBNull.Value ? ds.Rows[i]["MA_HIEU"].ToString() : null;
+                        d.nguoi_tao = ds.Rows[i]["NGUOI_TAO"] != DBNull.Value ? ds.Rows[i]["NGUOI_TAO"].ToString() : null;
+                        d.ma_dviqly = ds.Rows[i]["MA_DVIQLY"] != DBNull.Value ? ds.Rows[i]["MA_DVIQLY"].ToString() : null;
+                        d.ngay_tao = ds.Rows[i]["NGAY_TAO"] != DBNull.Value ? DateTime.Parse(ds.Rows[i]["NGAY_TAO"].ToString()) : null;
+                        d.nguoi_sua = ds.Rows[i]["NGUOI_SUA"] != DBNull.Value ? ds.Rows[i]["NGUOI_SUA"].ToString() : null;
+                        d.ngay_sua = ds.Rows[i]["NGAY_SUA"] != DBNull.Value ? DateTime.Parse(ds.Rows[i]["NGAY_SUA"].ToString()) : null;
+
+                        list.Add(d);
+                    }
+
+                    return list;
+                }
+                else { return null; }
+            }
+            catch (Exception ex) { 
                 throw ex;
             }
         }

@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
 using System;
 using APIPCHY_PhanQuyen.Models.QLKC.HT_MENU;
+using Microsoft.AspNetCore.Routing;
 
 namespace APIPCHY_PhanQuyen.Controllers.QLKC.HT_NGUOIDUNG
 {
@@ -104,6 +105,20 @@ namespace APIPCHY_PhanQuyen.Controllers.QLKC.HT_NGUOIDUNG
             return Ok(new { message = "Thêm người dùng thanh công", data = result });
 
 
+        }
+        [Route("getHT_NGUOIDUNGByMA_DVIQLY")]
+        [HttpGet]
+         
+        public IActionResult getHT_NGUOIDUNGByMA_DVIQLY(string ma_dviqly)
+        {
+            try
+            {
+                var reuslt = _manager.getHT_NGUOIDUNGByMA_DVIQLY(ma_dviqly);
+                return reuslt != null ? Ok(reuslt) : NotFound("not found!");
+            }catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpPatch("update")]

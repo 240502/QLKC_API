@@ -9,7 +9,7 @@ namespace API_PCHY.Controllers.QLKC
     [ApiController]
     public class D_KIMController : ControllerBase
     {
-            D_KIMManager db = new D_KIMManager();
+           private D_KIMManager db = new D_KIMManager();
             [HttpGet("getAll_D_KIM")]
             public ActionResult Get()
             {
@@ -55,6 +55,51 @@ namespace API_PCHY.Controllers.QLKC
                 D_KIMModel result = db.get_D_KIM_ByID(id_kim);
                 return result != null ? Ok(result) : NotFound();
             }
+        [Route("get_D_KIMByMA_DVIQLY")]
+        [HttpGet]
+        public IActionResult get_ALL_D_KIMByMA_DVIQLY(string ma_dviqly)
+        {
+            try
+            {
+                List<D_KIMModel> results = db.get_ALL_D_KIMByMA_DVIQLY(ma_dviqly);
+                
+                return results != null ?  Ok(results):NotFound("not found!");
+            }catch(Exception ex)    
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        [Route("update_MA_DVIQLY")]
+        [HttpPost]
+        public IActionResult update_MADVIQLY_D_KIM([FromBody] Dictionary<string,object> formData)
+        {
+            try
+            {
+                string? ht_nguoidung_id = null;
+                string? ma_dvigiao = null;
+                string? id_kim = null;
+                if(formData.Keys.Contains("ht_nguoidung_id") && !string.IsNullOrEmpty(formData["ht_nguoidung_id"].ToString()))
+                {
+                    ht_nguoidung_id= formData["ht_nguoidung_id"].ToString();
+
+                }
+                if (formData.Keys.Contains("ma_dvigiao") && !string.IsNullOrEmpty(formData["ma_dvigiao"].ToString()))
+                {
+                    ma_dvigiao = formData["ma_dvigiao"].ToString();
+
+                }
+                if (formData.Keys.Contains("id_kim") && !string.IsNullOrEmpty(formData["id_kim"].ToString()))
+                {
+                    id_kim = formData["id_kim"].ToString();
+
+                }
+                string result = db.update_MADVIQLY_D_KIM(ht_nguoidung_id,id_kim,ma_dvigiao);
+                return string.IsNullOrEmpty(result) ? Ok("Success") : BadRequest(result);
+            }catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
 
             [Route("search_D_KIM")]
             [HttpPost]

@@ -42,6 +42,14 @@ namespace APIPCHY_PhanQuyen.Controllers.QLKC.DM_PHONGBAN
             DM_PHONGBAN_Model result = db.get_DM_PHONGBANByID(ID.ToString());
             return result != null ? Ok(result) : NotFound();
         }
+
+        [Route("get_DM_PHONGBANByMA_DVI_QLY")]
+        [HttpGet]
+        public IActionResult get_DM_PHONGBANByMA_DVI_QLY(string? ma_dviqly)
+        {
+            List<DM_PHONGBAN_Model> result = db.get_DM_PHONGBANByMA_DVI_QLY(ma_dviqly);
+            return result != null ? Ok(result) : NotFound();
+        }
         [Route("search_DM_PHONGBAN")]
         [HttpPost]
         public IActionResult search_DM_PHONGBANByID([FromBody] Dictionary<string, object> formData)

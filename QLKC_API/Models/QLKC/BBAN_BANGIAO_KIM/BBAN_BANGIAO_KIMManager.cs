@@ -3,6 +3,7 @@ using iTextSharp.text;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq.Expressions;
 using System.util.collections;
 
 namespace API_PCHY.Models.QLKC.BBAN_BANGIAO_KIM
@@ -97,7 +98,18 @@ namespace API_PCHY.Models.QLKC.BBAN_BANGIAO_KIM
             }
 
         }
-
+        public string update_NguoiNhan_BBAN_BANGGIAO_KIM(string? ht_nguoidung_id, int? bienban_id)
+        {
+            try
+            {
+                string result = helper.ExcuteNonQuery("PKG_QLKC_SANG.update_NguoiNhan_BBAN_BANGGIAO_KIM", "p_Error", "p_ht_nguoidung_id", "p_bienban_id",
+                                    ht_nguoidung_id,bienban_id);
+                return result;
+            }catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
         public string update_QLKC_BBAN_BANGIAO_KIMChoDuyet(BBAN_BANGIAO_KIMModel bBAN_BANGIAO_KIMModel)
         {
             try

@@ -464,6 +464,37 @@ namespace APIPCHY_PhanQuyen.Models.QLKC.HT_NGUOIDUNG
             }
         }
 
+        public List<UserResponse> getHT_NGUOIDUNGByMA_DVIQLY(string ma_dviqly)
+        {
+            try
+            {
+                DataTable tb = helper.ExcuteReader("PKG_QLKC_SANG.get_HT_NGUOIDUNGByMA_DVIQLY", "p_ma_dviqly",ma_dviqly);
+                if (tb != null && tb.Rows.Count > 0)
+                {
+                    List<UserResponse> results = new List<UserResponse>();
+                    for (int i = 0; i < tb.Rows.Count; i++)
+                    {
+                        UserResponse result = new UserResponse
+                        {
+                            ID = tb.Rows[i]["ID"] != DBNull.Value ? tb.Rows[i]["ID"].ToString() : null,
+                            HO_TEN = tb.Rows[i]["HO_TEN"] != DBNull.Value ? tb.Rows[i]["HO_TEN"].ToString() : null,
+                            TEN_DANG_NHAP = tb.Rows[i]["TEN_DANG_NHAP"] != DBNull.Value ? tb.Rows[i]["TEN_DANG_NHAP"].ToString() : null,
+                            TRANG_THAI = tb.Rows[i]["TRANG_THAI"] != DBNull.Value ? Convert.ToInt32(tb.Rows[i]["TRANG_THAI"]) : 0,
+                            TEN_DONVI =  null,
+                            TEN_PHONGBAN =  null,
+                            TEN_CHUCVU =  null,
+                            EMAIL = tb.Rows[i]["EMAIL"] != DBNull.Value ? tb.Rows[i]["EMAIL"].ToString() : null,
+                        };
+                        results.Add(result);
+                    }
+                    return results;
+                }
+                else return null;
+            }catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
 
         public List<UserResponse> FILTER_HT_NGUOIDUNG(UserFilterRequest request, out int totalRecords)
         {
