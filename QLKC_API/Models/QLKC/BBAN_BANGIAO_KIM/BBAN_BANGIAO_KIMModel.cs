@@ -16,6 +16,8 @@ namespace API_PCHY.Models.QLKC.BBAN_BANGIAO_KIM
         public int? LOAI_BBAN { get; set; }
         public string NOI_DUNG { get; set; }
         public int? TRANG_THAI { get; set; }
+        public string TEN_PB { get; set; }
+        public string TEN_DV { get; set; }
     }
 
 }

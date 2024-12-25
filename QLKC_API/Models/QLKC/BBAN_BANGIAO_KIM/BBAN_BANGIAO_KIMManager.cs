@@ -38,6 +38,9 @@ namespace API_PCHY.Models.QLKC.BBAN_BANGIAO_KIM
                         model.LOAI_BBAN = tb.Rows[i]["LOAI_BBAN"] != DBNull.Value ? int.Parse(tb.Rows[i]["LOAI_BBAN"].ToString()) : null;
                         model.NOI_DUNG = tb.Rows[i]["NOI_DUNG"] != DBNull.Value ? tb.Rows[i]["NOI_DUNG"].ToString() : null;
                         model.TRANG_THAI = tb.Rows[i]["TRANG_THAI"] != DBNull.Value ? int.Parse(tb.Rows[i]["TRANG_THAI"].ToString()) : null;
+                        model.TEN_DV = tb.Rows[i]["TEN_DV"] != DBNull.Value ? tb.Rows[i]["TEN_DV"].ToString() : null;
+                        model.TEN_PB = tb.Rows[i]["TEN_PB"] != DBNull.Value ? tb.Rows[i]["TEN_PB"].ToString() : null;
+
                         results.Add(model);
                     }
                    
