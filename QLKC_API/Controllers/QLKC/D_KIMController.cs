@@ -57,10 +57,15 @@ namespace API_PCHY.Controllers.QLKC
             }
         [Route("get_D_KIMByMA_DVIQLY")]
         [HttpGet]
-        public IActionResult get_ALL_D_KIMByMA_DVIQLY(string ma_dviqly)
+        public IActionResult get_ALL_D_KIMByMA_DVIQLY(string? ma_dviqly)
         {
             try
             {
+                if(ma_dviqly == "null")
+                {
+                    ma_dviqly = null;
+                }
+                
                 List<D_KIMModel> results = db.get_ALL_D_KIMByMA_DVIQLY(ma_dviqly);
                 
                 return results != null ?  Ok(results):NotFound("not found!");

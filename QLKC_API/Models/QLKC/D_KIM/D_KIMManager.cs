@@ -74,10 +74,11 @@ namespace API_PCHY.Models.QLKC.D_KIM
                 throw ex;
             }
         }
-        public List<D_KIMModel> get_ALL_D_KIMByMA_DVIQLY(string ma_dviqly)
+        public List<D_KIMModel> get_ALL_D_KIMByMA_DVIQLY(string? ma_dviqly)
         {
             try
-            {
+            {   
+                
                 DataTable ds = helper.ExcuteReader("PKG_QLKC_SANG.get_ALL_D_KIMByMA_DVIQLY", "p_MA_DVIQLY", ma_dviqly);
                 if(ds.Rows.Count > 0)
                 {

@@ -26,20 +26,20 @@ namespace API_PCHY.Models.QLKC.BBAN_BANGIAO_KIM
                     for (int i = 0; i < tb.Rows.Count; i++)
                     {
                         BBAN_BANGIAO_KIMModel model = new BBAN_BANGIAO_KIMModel();
-                        model.ID_BIENBAN = int.Parse(tb.Rows[i]["ID_BIENBAN"].ToString());
-                        model.ID_KIM = tb.Rows[i]["ID_KIM"] != DBNull.Value ? tb.Rows[i]["ID_KIM"].ToString() : null;
-                        model.SO_LUONG = tb.Rows[i]["SO_LUONG"] != DBNull.Value ? int.Parse(tb.Rows[i]["SO_LUONG"].ToString()) : null;
-                        model.DON_VI_GIAO = tb.Rows[i]["DON_VI_GIAO"] != DBNull.Value ? tb.Rows[i]["DON_VI_GIAO"].ToString() : null;
-                        model.DON_VI_NHAN = tb.Rows[i]["DON_VI_NHAN"] != DBNull.Value ? tb.Rows[i]["DON_VI_NHAN"].ToString() : null;
-                        model.NGUOI_NHAN = tb.Rows[i]["NGUOI_NHAN"] != DBNull.Value ? tb.Rows[i]["NGUOI_NHAN"].ToString() : null;
-                        model.NGUOI_GIAO = tb.Rows[i]["NGUOI_GIAO"] != DBNull.Value ? tb.Rows[i]["NGUOI_GIAO"].ToString() : null;
-                        model.NGAY_GIAO = tb.Rows[i]["NGAY_GIAO"] != DBNull.Value ? DateTime.Parse(tb.Rows[i]["NGAY_GIAO"].ToString()) : null;
-                        model.NGAY_NHAN = tb.Rows[i]["NGAY_NHAN"] != DBNull.Value ? DateTime.Parse(tb.Rows[i]["NGAY_NHAN"].ToString()) : null;
-                        model.LOAI_BBAN = tb.Rows[i]["LOAI_BBAN"] != DBNull.Value ? int.Parse(tb.Rows[i]["LOAI_BBAN"].ToString()) : null;
-                        model.NOI_DUNG = tb.Rows[i]["NOI_DUNG"] != DBNull.Value ? tb.Rows[i]["NOI_DUNG"].ToString() : null;
-                        model.TRANG_THAI = tb.Rows[i]["TRANG_THAI"] != DBNull.Value ? int.Parse(tb.Rows[i]["TRANG_THAI"].ToString()) : null;
-                        model.TEN_DV = tb.Rows[i]["TEN_DV"] != DBNull.Value ? tb.Rows[i]["TEN_DV"].ToString() : null;
-                        model.TEN_PB = tb.Rows[i]["TEN_PB"] != DBNull.Value ? tb.Rows[i]["TEN_PB"].ToString() : null;
+                        model.id_bienban = int.Parse(tb.Rows[i]["ID_BIENBAN"].ToString());
+                        model.id_kim = tb.Rows[i]["ID_KIM"] != DBNull.Value ? tb.Rows[i]["ID_KIM"].ToString() : null;
+                        model.so_luong = tb.Rows[i]["SO_LUONG"] != DBNull.Value ? int.Parse(tb.Rows[i]["SO_LUONG"].ToString()) : null;
+                        model.don_vi_giao = tb.Rows[i]["DON_VI_GIAO"] != DBNull.Value ? tb.Rows[i]["DON_VI_GIAO"].ToString() : null;
+                        model.don_vi_nhan = tb.Rows[i]["DON_VI_NHAN"] != DBNull.Value ? tb.Rows[i]["DON_VI_NHAN"].ToString() : null;
+                        model.nguoi_nhan= tb.Rows[i]["NGUOI_NHAN"] != DBNull.Value ? tb.Rows[i]["NGUOI_NHAN"].ToString() : null;
+                        model.nguoi_giao = tb.Rows[i]["NGUOI_GIAO"] != DBNull.Value ? tb.Rows[i]["NGUOI_GIAO"].ToString() : null;
+                        model.ngay_giao = tb.Rows[i]["NGAY_GIAO"] != DBNull.Value ? DateTime.Parse(tb.Rows[i]["NGAY_GIAO"].ToString()) : null;
+                        model.ngay_nhan = tb.Rows[i]["NGAY_NHAN"] != DBNull.Value ? DateTime.Parse(tb.Rows[i]["NGAY_NHAN"].ToString()) : null;
+                        model.loai_bban = tb.Rows[i]["LOAI_BBAN"] != DBNull.Value ? int.Parse(tb.Rows[i]["LOAI_BBAN"].ToString()) : null;
+                        model.noi_dung = tb.Rows[i]["NOI_DUNG"] != DBNull.Value ? tb.Rows[i]["NOI_DUNG"].ToString() : null;
+                        model.trang_thai = tb.Rows[i]["TRANG_THAI"] != DBNull.Value ? int.Parse(tb.Rows[i]["TRANG_THAI"].ToString()) : null;
+                        model.ten_dv = tb.Rows[i]["TEN_DV"] != DBNull.Value ? tb.Rows[i]["TEN_DV"].ToString() : null;
+                        model.ten_pb = tb.Rows[i]["TEN_PB"] != DBNull.Value ? tb.Rows[i]["TEN_PB"].ToString() : null;
 
                         results.Add(model);
                     }
@@ -62,19 +62,18 @@ namespace API_PCHY.Models.QLKC.BBAN_BANGIAO_KIM
                 if(tb != null)
                 {
                     BBAN_BANGIAO_KIMModel model = new BBAN_BANGIAO_KIMModel();
-                    model.ID_BIENBAN = int.Parse(tb.Rows[0]["ID_BIENBAN"].ToString());
-                    model.ID_KIM = tb.Rows[0]["ID_KIM"] != DBNull.Value ? tb.Rows[0]["ID_KIM"].ToString():null;
-                    model.SO_LUONG = tb.Rows[0]["SO_LUONG"] != DBNull.Value? int.Parse(tb.Rows[0]["SO_LUONG"].ToString()):null;
-                    model.DON_VI_GIAO = tb.Rows[0]["DON_VI_GIAO"] != DBNull.Value? tb.Rows[0]["DON_VI_GIAO"].ToString():null;
-                    model.DON_VI_NHAN = tb.Rows[0]["DON_VI_NHAN"] != DBNull.Value?tb.Rows[0]["DON_VI_NHAN"].ToString():null; 
-                    model.NGUOI_NHAN = tb.Rows[0]["NGUOI_NHAN"] != DBNull.Value?tb.Rows[0]["NGUOI_NHAN"].ToString():null;
-                    model.NGUOI_GIAO = tb.Rows[0]["NGUOI_GIAO"] != DBNull.Value? tb.Rows[0]["NGUOI_GIAO"].ToString() : null;
-                    model.NGAY_GIAO = tb.Rows[0]["NGAY_GIAO"] != DBNull.Value? DateTime.Parse(tb.Rows[0]["NGAY_GIAO"].ToString()) : null;
-                    model.NGAY_NHAN = tb.Rows[0]["NGAY_NHAN"] != DBNull.Value? DateTime.Parse(tb.Rows[0]["NGAY_NHAN"].ToString()) : null;
-                    model.LOAI_BBAN = tb.Rows[0]["LOAI_BBAN"] != DBNull.Value?int.Parse(tb.Rows[0]["LOAI_BBAN"].ToString()) : null;
-                    model.NOI_DUNG = tb.Rows[0]["NOI_DUNG"] != DBNull.Value? tb.Rows[0]["NOI_DUNG"].ToString() : null;
-                    model.TRANG_THAI = tb.Rows[0]["TRANG_THAI"] != DBNull.Value? int.Parse(tb.Rows[0]["TRANG_THAI"].ToString()) : null;
-
+                    model.id_bienban = int.Parse(tb.Rows[0]["ID_BIENBAN"].ToString());
+                    model.id_kim= tb.Rows[0]["ID_KIM"] != DBNull.Value ? tb.Rows[0]["ID_KIM"].ToString():null;
+                    model.so_luong = tb.Rows[0]["SO_LUONG"] != DBNull.Value? int.Parse(tb.Rows[0]["SO_LUONG"].ToString()):null;
+                    model.don_vi_giao = tb.Rows[0]["DON_VI_GIAO"] != DBNull.Value? tb.Rows[0]["DON_VI_GIAO"].ToString():null;
+                    model.don_vi_nhan = tb.Rows[0]["DON_VI_NHAN"] != DBNull.Value?tb.Rows[0]["DON_VI_NHAN"].ToString():null; 
+                    model.nguoi_nhan = tb.Rows[0]["NGUOI_NHAN"] != DBNull.Value?tb.Rows[0]["NGUOI_NHAN"].ToString():null;
+                    model.nguoi_giao = tb.Rows[0]["NGUOI_GIAO"] != DBNull.Value? tb.Rows[0]["NGUOI_GIAO"].ToString() : null;
+                    model.ngay_giao = tb.Rows[0]["NGAY_GIAO"] != DBNull.Value? DateTime.Parse(tb.Rows[0]["NGAY_GIAO"].ToString()) : null;
+                    model.ngay_nhan = tb.Rows[0]["NGAY_NHAN"] != DBNull.Value? DateTime.Parse(tb.Rows[0]["NGAY_NHAN"].ToString()) : null;
+                    model.loai_bban = tb.Rows[0]["LOAI_BBAN"] != DBNull.Value?int.Parse(tb.Rows[0]["LOAI_BBAN"].ToString()) : null;
+                    model.noi_dung = tb.Rows[0]["NOI_DUNG"] != DBNull.Value? tb.Rows[0]["NOI_DUNG"].ToString() : null;
+                    model.trang_thai = tb.Rows[0]["TRANG_THAI"] != DBNull.Value? int.Parse(tb.Rows[0]["TRANG_THAI"].ToString()) : null;
                     return model;
                 }
                 else return null;
@@ -90,9 +89,9 @@ namespace API_PCHY.Models.QLKC.BBAN_BANGIAO_KIM
             {
                 string result = helper.ExcuteNonQuery("PKG_QLKC_SANG.insert_QLKC_BBAN_BANGIAO_KIM", "p_Error",
                                                         "p_ID_KIM", "p_SO_LUONG", "p_DON_VI_GIAO", "p_DON_VI_NHAN", "p_NGUOI_NHAN", "p_NGUOI_GIAO", "p_NOI_DUNG", "p_LOAI_BBAN",
-                                                        bBAN_BANGIAO_KIMModel.ID_KIM, bBAN_BANGIAO_KIMModel.SO_LUONG, bBAN_BANGIAO_KIMModel.DON_VI_GIAO,
-                                                        bBAN_BANGIAO_KIMModel.DON_VI_NHAN,bBAN_BANGIAO_KIMModel.NGUOI_NHAN, 
-                                                        bBAN_BANGIAO_KIMModel.NGUOI_GIAO, bBAN_BANGIAO_KIMModel.NOI_DUNG,bBAN_BANGIAO_KIMModel.LOAI_BBAN);
+                                                        bBAN_BANGIAO_KIMModel.id_kim, bBAN_BANGIAO_KIMModel.so_luong, bBAN_BANGIAO_KIMModel.don_vi_giao,
+                                                        bBAN_BANGIAO_KIMModel.don_vi_nhan,bBAN_BANGIAO_KIMModel.nguoi_nhan, 
+                                                        bBAN_BANGIAO_KIMModel.nguoi_giao, bBAN_BANGIAO_KIMModel.noi_dung,bBAN_BANGIAO_KIMModel.loai_bban);
                 return result;
             }
             catch (Exception ex)
@@ -119,9 +118,9 @@ namespace API_PCHY.Models.QLKC.BBAN_BANGIAO_KIM
             {
                 string result = helper.ExcuteNonQuery("PKG_QLKC_SANG.update_QLKC_BBAN_BANGIAO_KIMChoDuyet", "p_Error",
                                                         "p_ID_BIENBAN", "p_ID_KIM", "p_SO_LUONG", "p_DON_VI_GIAO", "p_DON_VI_NHAN", "p_NGUOI_NHAN", "p_NGUOI_GIAO", "p_NGAY_GIAO", "p_NOI_DUNG",
-                                                        bBAN_BANGIAO_KIMModel.ID_BIENBAN, bBAN_BANGIAO_KIMModel.ID_KIM, bBAN_BANGIAO_KIMModel.SO_LUONG, bBAN_BANGIAO_KIMModel.DON_VI_GIAO,
-                                                        bBAN_BANGIAO_KIMModel.DON_VI_NHAN, bBAN_BANGIAO_KIMModel.NGUOI_NHAN,
-                                                        bBAN_BANGIAO_KIMModel.NGUOI_GIAO, bBAN_BANGIAO_KIMModel.NGAY_GIAO, bBAN_BANGIAO_KIMModel.NOI_DUNG);
+                                                        bBAN_BANGIAO_KIMModel.id_bienban, bBAN_BANGIAO_KIMModel.id_kim, bBAN_BANGIAO_KIMModel.so_luong, bBAN_BANGIAO_KIMModel.don_vi_giao,
+                                                        bBAN_BANGIAO_KIMModel.don_vi_nhan, bBAN_BANGIAO_KIMModel.nguoi_nhan,
+                                                        bBAN_BANGIAO_KIMModel.nguoi_giao, bBAN_BANGIAO_KIMModel.ngay_giao, bBAN_BANGIAO_KIMModel.noi_dung);
                 return result;
             }
             catch (Exception ex)
@@ -176,7 +175,7 @@ namespace API_PCHY.Models.QLKC.BBAN_BANGIAO_KIM
             try
             {
                 BBAN_BANGIAO_KIMModel model = get_BBAN_BANGIAO_KIMByIdBBan(id_bban);
-                if(model.TRANG_THAI == 1)
+                if(model.trang_thai == 1)
                 {
                     string result = helper.ExcuteNonQuery("PKG_QLKC_SANG.update_QLKC_BBAN_BANGIAO_KIMKyC2", "p_Error",
                                                        "p_ID_BIENBAN",
