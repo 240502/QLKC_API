@@ -56,17 +56,22 @@ namespace API_PCHY.Controllers.QLKC
                 return result != null ? Ok(result) : NotFound();
             }
         [Route("get_D_KIMByMA_DVIQLY")]
-        [HttpGet]
-        public IActionResult get_ALL_D_KIMByMA_DVIQLY(string? ma_dviqly)
+        [HttpPost]
+        public IActionResult get_ALL_D_KIMByMA_DVIQLY([FromBody] Dictionary<string,object> formData)
         {
             try
             {
-                if(ma_dviqly == "null")
+                string? ma_dviqly = null; string? kimIds = null;
+                if(formData.Keys.Contains("ma_dviqly") && !string.IsNullOrEmpty(formData["ma_dviqly"].ToString()))
                 {
-                    ma_dviqly = null;
+                    ma_dviqly = formData["ma_dviqly"].ToString();
                 }
-                
-                List<D_KIMModel> results = db.get_ALL_D_KIMByMA_DVIQLY(ma_dviqly);
+                if (formData.Keys.Contains("kimIds") && !string.IsNullOrEmpty(formData["kimIds"].ToString()))
+                {
+                    kimIds = formData["kimIds"].ToString();
+                }
+
+                List<D_KIMModel> results = db.get_ALL_D_KIMByMA_DVIQLY(ma_dviqly, kimIds);
                 
                 return results != null ?  Ok(results):NotFound("not found!");
             }catch(Exception ex)    

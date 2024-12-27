@@ -4,7 +4,7 @@ namespace API_PCHY.Models.QLKC.D_KIM
 {
     public class D_KIMModel
     {
-        public int? id_kim { get; set; }
+        public int id_kim { get; set; }
         public int? loai_ma_kim { get; set; }
         public DateTime? thoi_han { get; set; }
         public int? trang_thai { get; set; }

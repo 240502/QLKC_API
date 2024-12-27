@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System;
 using System.Data;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 
 namespace API_PCHY.Models.QLKC.D_KIM
 {
@@ -74,11 +75,11 @@ namespace API_PCHY.Models.QLKC.D_KIM
                 throw ex;
             }
         }
-        public List<D_KIMModel> get_ALL_D_KIMByMA_DVIQLY(string? ma_dviqly)
+        public List<D_KIMModel> get_ALL_D_KIMByMA_DVIQLY(string? ma_dviqly,string kimIds )
         {
             try
-            {   
-                
+            {
+              
                 DataTable ds = helper.ExcuteReader("PKG_QLKC_SANG.get_ALL_D_KIMByMA_DVIQLY", "p_MA_DVIQLY", ma_dviqly);
                 if(ds.Rows.Count > 0)
                 {
@@ -99,8 +100,29 @@ namespace API_PCHY.Models.QLKC.D_KIM
 
                         list.Add(d);
                     }
+                    // Lọc các kìm có id_kim nằm trong mảng id kìm
+                    List<D_KIMModel> results = new List<D_KIMModel>();
 
-                    return list;
+                    if (ma_dviqly == null)
+                    {
+                        string[] stringArray;
+                        int[] intKimIdArray;
+                        stringArray = kimIds.Split(',');
+                            // Chuyển đổi mảng chuỗi thành mảng số nguyên
+                        intKimIdArray = stringArray.Select(int.Parse).ToArray();
+                        for (int i = 0; i < list.Count - 1; i++)
+                        {
+                            var a = intKimIdArray.Contains(list[i].id_kim);
+                            var b = list[i].ma_dviqly == "PA23";
+                            if (intKimIdArray.Contains(list[i].id_kim) || list[i].ma_dviqly == "PA23")
+                            {
+                                results.Add(list[i]);
+                            }
+
+                        }
+                    }
+                    
+                    return ma_dviqly == null ? results : list;
                 }
                 else { return null; }
             }
@@ -147,7 +169,7 @@ namespace API_PCHY.Models.QLKC.D_KIM
 
                     list.Add(d);
                 }
-
+             
                 return list;
             }
             catch (Exception ex)
