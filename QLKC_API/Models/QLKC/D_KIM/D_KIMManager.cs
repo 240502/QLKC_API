@@ -110,10 +110,8 @@ namespace API_PCHY.Models.QLKC.D_KIM
                         stringArray = kimIds.Split(',');
                             // Chuyển đổi mảng chuỗi thành mảng số nguyên
                         intKimIdArray = stringArray.Select(int.Parse).ToArray();
-                        for (int i = 0; i < list.Count - 1; i++)
+                        for (int i = 0; i < list.Count; i++)
                         {
-                            var a = intKimIdArray.Contains(list[i].id_kim);
-                            var b = list[i].ma_dviqly == "PA23";
                             if (intKimIdArray.Contains(list[i].id_kim) || list[i].ma_dviqly == "PA23")
                             {
                                 results.Add(list[i]);

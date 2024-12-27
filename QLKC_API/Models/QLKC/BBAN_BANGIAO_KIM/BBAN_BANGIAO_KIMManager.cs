@@ -12,12 +12,12 @@ namespace API_PCHY.Models.QLKC.BBAN_BANGIAO_KIM
     {
         DataHelper helper = new DataHelper();
 
-        public List<BBAN_BANGIAO_KIMModel> search_BBAN_BANGIAO_KIM(int? pageIndex,int? pageSize, string? don_vi_giao, string? don_vi_nhan, int? trang_thai, string don_vi,int? loai_bban,out int totalItems)
+        public List<BBAN_BANGIAO_KIMModel> search_BBAN_BANGIAO_KIM(int? pageIndex,int? pageSize, string? don_vi_giao, string? don_vi_nhan, int? trang_thai, string don_vi,int? loai_bban,string? userId, out int totalItems)
         {
             totalItems = 0;
             try
             {
-                DataTable tb = helper.ExcuteReader("PKG_QLKC_SANG.search_BBAN_BANGIAO_KIM", "p_page_index","p_page_size", "p_DON_VI_GIAO", "p_DON_VI_NHAN", "p_TRANG_THAI","p_DON_VI", "p_LOAI_BBAN",pageIndex,pageSize,don_vi_giao,don_vi_nhan,trang_thai,don_vi,loai_bban);
+                DataTable tb = helper.ExcuteReader("PKG_QLKC_SANG.search_BBAN_BANGIAO_KIM", "p_page_index","p_page_size", "p_DON_VI_GIAO", "p_DON_VI_NHAN", "p_TRANG_THAI","p_DON_VI", "p_LOAI_BBAN", "p_HT_NGUOIDUNG_ID", pageIndex,pageSize,don_vi_giao,don_vi_nhan,trang_thai,don_vi,loai_bban,userId);
 
                 if (tb != null)
                 {

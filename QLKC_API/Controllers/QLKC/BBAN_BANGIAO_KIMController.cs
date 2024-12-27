@@ -25,6 +25,7 @@ namespace API_PCHY.Controllers.QLKC
                 string don_vi_giao = null;
                 string don_vi = null;
                 int? loai_bban = null;
+                string? userId = null;
 
                 int? trang_thai = null;
                 if (formData.Keys.Contains("pageIndex") && !string.IsNullOrEmpty(formData["pageIndex"].ToString()))
@@ -55,9 +56,13 @@ namespace API_PCHY.Controllers.QLKC
                 {
                     trang_thai = int.Parse(formData["trang_thai"].ToString());
                 }
+                if (formData.Keys.Contains("userId") && !string.IsNullOrEmpty(formData["userId"].ToString()))
+                {
+                    userId = formData["userId"].ToString();
+                }
 
                 int totalItems = 0;
-                List<BBAN_BANGIAO_KIMModel> result = manager.search_BBAN_BANGIAO_KIM(pageIndex, pageSize, don_vi_giao, don_vi_nhan, trang_thai, don_vi, loai_bban, out totalItems);
+                List<BBAN_BANGIAO_KIMModel> result = manager.search_BBAN_BANGIAO_KIM(pageIndex, pageSize, don_vi_giao, don_vi_nhan, trang_thai, don_vi, loai_bban,userId, out totalItems);
                 return result != null ? Ok(new
                 {
                     page = pageIndex,
