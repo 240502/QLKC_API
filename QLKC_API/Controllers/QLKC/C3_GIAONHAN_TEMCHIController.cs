@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using System.Data;
 using System;
-using APIPCHY_PhanQuyen.Models.QLKC.C3_GIAONHAN_TEMCHI;
+using QLKC_API.Models.QLKC.C3_GIAONHAN_TEMCHI;
 
-namespace QLKC_API.Models.QLKC.C3_GIAONHAN_TEMCHI
+namespace QLKC_API.Models.Controllers.QLKC.C3_GIAONHAN_TEMCHI
 {
     public class C3_GIAONHAN_TEMCHI_Manager
-
     {
         DataHelper helper = new DataHelper();
         public List<C3_GIAONHAN_TEMCHI_Model> getALL_QLKC_C3_GIAONHAN_TEMCHI()

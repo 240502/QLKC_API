@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Data;
 using System;
-using APIPCHY_PhanQuyen.Models.QLKC.C3_GIAONHAN_TEMCHI;
 
 namespace QLKC_API.Models.QLKC.C3_GIAONHAN_TEMCHI
 {

@@ -1,9 +1,10 @@
-﻿using API_PCHY.Models.QLKC.BBAN_BANGIAO_KIM;
+﻿using QLKC_API.Models.QLKC.BBAN_BANGIAO_KIM;
 using APIPCHY_PhanQuyen.Models.QLKC.HT_NGUOIDUNG;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using API_PCHY.Models.QLKC.BBAN_BANGIAO_KIM;
 
 namespace API_PCHY.Controllers.QLKC
 {

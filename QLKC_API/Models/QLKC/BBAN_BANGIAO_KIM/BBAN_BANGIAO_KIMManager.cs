@@ -5,8 +5,9 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq.Expressions;
 using System.util.collections;
+using API_PCHY.Models.QLKC.BBAN_BANGIAO_KIM;
 
-namespace API_PCHY.Models.QLKC.BBAN_BANGIAO_KIM
+namespace QLKC_API.Models.QLKC.BBAN_BANGIAO_KIM
 {
     public class BBAN_BANGIAO_KIMManager
     {

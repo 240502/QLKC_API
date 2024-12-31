@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace APIPCHY_PhanQuyen.Models.QLKC.C3_GIAONHAN_TEMCHI
+namespace QLKC_API.Models.QLKC.C3_GIAONHAN_TEMCHI
 {
     public class C3_GIAONHAN_TEMCHI_Model
     {
