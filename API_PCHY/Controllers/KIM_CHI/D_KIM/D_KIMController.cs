@@ -13,6 +13,21 @@ namespace APIPCHY_PhanQuyen.Controllers.QLKC.D_KIM
     {
         D_KIM_Manager db = new D_KIM_Manager();
 
+        [HttpGet("getAll_D_KIM")]
+        public ActionResult Get()
+        {
+            try
+            {
+                List<D_KIM_Model> result = db.getALL_D_KIM();
+
+                return result != null ? Ok(result) : NotFound();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
         [Route("insert_D_KIM")]
         [HttpPost]
         public IActionResult insert_D_KIM([FromBody] D_KIM_Model d_KIM)

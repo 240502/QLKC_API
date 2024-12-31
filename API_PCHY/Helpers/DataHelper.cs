@@ -7,7 +7,7 @@ namespace APIPCHY.Helpers
 {
     public class DataHelper
     {
-        //string connectionString = "User Id=QLKC;Password=qlkc;Data Source=117.0.33.2:1522/QLKC";
+        string connectionString = "User Id=QLKC;Password=qlkc;Data Source=192.168.1.18:1522/QLKC";
         OracleConnection cn;
 
         public DataHelper(string conn)
