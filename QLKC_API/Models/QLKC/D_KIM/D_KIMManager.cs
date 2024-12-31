@@ -60,6 +60,50 @@ namespace API_PCHY.Models.QLKC.D_KIM
             }
         }
 
+        public List<D_KIMModel> get_ALL_D_KIMTTByMA_DVIQLY(string? ma_dviqly, string? iD_KIM)
+        {
+            try
+            {
+                DataTable ds = helper.ExcuteReader("PKG_QLKC_KIEN.get_ALL_D_KIMTTByMA_DVIQLY", "p_MA_DVIQLY", "p_ID_KIM", ma_dviqly, iD_KIM);
+
+                if (ds.Rows.Count > 0)
+                {
+                    List<D_KIMModel> list = new List<D_KIMModel>();
+
+                    foreach (DataRow row in ds.Rows)
+                    {
+                        D_KIMModel d = new D_KIMModel
+                        {
+                            id_kim = int.Parse(row["ID_KIM"].ToString()),
+                            loai_ma_kim = row["LOAI_MA_KIM"] != DBNull.Value ? (int?)int.Parse(row["LOAI_MA_KIM"].ToString()) : null,
+                            thoi_han = row["THOI_HAN"] != DBNull.Value ? (DateTime?)DateTime.Parse(row["THOI_HAN"].ToString()) : null,
+                            trang_thai = row["TRANG_THAI"] != DBNull.Value ? (int?)int.Parse(row["TRANG_THAI"].ToString()) : null,
+                            ma_hieu = row["MA_HIEU"] != DBNull.Value ? row["MA_HIEU"].ToString() : null,
+                            nguoi_tao = row["NGUOI_TAO"] != DBNull.Value ? row["NGUOI_TAO"].ToString() : null,
+                            ma_dviqly = row["MA_DVIQLY"] != DBNull.Value ? row["MA_DVIQLY"].ToString() : null,
+                            ngay_tao = row["NGAY_TAO"] != DBNull.Value ? (DateTime?)DateTime.Parse(row["NGAY_TAO"].ToString()) : null,
+                            nguoi_sua = row["NGUOI_SUA"] != DBNull.Value ? row["NGUOI_SUA"].ToString() : null,
+                            ngay_sua = row["NGAY_SUA"] != DBNull.Value ? (DateTime?)DateTime.Parse(row["NGAY_SUA"].ToString()) : null
+                        };
+
+                        list.Add(d);
+                    }
+
+                  
+
+                    return list;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error retrieving data: " + ex.Message, ex);
+            }
+        }
+
 
         public List<D_KIMModel> search_QLKC_D_KIM(int? pageSize, int? pageIndex, string? nguoi_tao, int? loai_ma_kim, int? trang_thai, out int totalItems)
         {

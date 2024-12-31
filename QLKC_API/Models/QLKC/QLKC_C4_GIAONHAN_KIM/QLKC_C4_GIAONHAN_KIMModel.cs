@@ -20,5 +20,9 @@ namespace API_PCHY.Models.QUAN_TRI.QLKC_C4_GIAONHAN_KIM
         public int? TRANG_THAI { get; set; }
         public int? LOAI_BBAN { get; set; }
         public string? NOI_DUNG { get; set; }
+        public string? ID_KIM { get; set; }
+
+        public DateTime? NGAY_TRA { get; set; }
+        public string? MADONVIQLY { get; set; }
     }
 }

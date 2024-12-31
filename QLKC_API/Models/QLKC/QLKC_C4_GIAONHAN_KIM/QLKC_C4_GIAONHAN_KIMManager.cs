@@ -19,11 +19,11 @@ namespace API_PCHY.Models.QUAN_TRI.QLKC_C4_GIAONHAN_KIM
                 string str_id = qLKC_C4_GIAONHAN_KIM.ID.ToString();
                 string result = helper.ExcuteNonQuery("PKG_QLKC_THUAN.update_CD_QLKC_C4_GIAONHAN_KIM", "p_Error", "p_ID",
                                                         "p_SO_LUONG_GIAO", "p_SO_LUONG_TRA", "p_SO_LUONG_THUHOI", "p_DON_VI_GIAO", "p_DON_VI_NHAN", "p_NGUOI_NHAN",
-                                                        "p_NGUOI_GIAO", "p_NGAY_GIAO", "p_NGAY_NHAN", "p_NOIDUNG",
+                                                        "p_NGUOI_GIAO", "p_NGAY_GIAO", "p_NGAY_NHAN", "p_NOIDUNG","p_ID_KIM",
                                                        str_id, qLKC_C4_GIAONHAN_KIM.SO_LUONG_GIAO, qLKC_C4_GIAONHAN_KIM.SO_LUONG_TRA, qLKC_C4_GIAONHAN_KIM.SO_LUONG_THUHOI,
                                                        qLKC_C4_GIAONHAN_KIM.DON_VI_GIAO, qLKC_C4_GIAONHAN_KIM.DON_VI_NHAN,
                                                        qLKC_C4_GIAONHAN_KIM.NGUOI_NHAN, qLKC_C4_GIAONHAN_KIM.NGUOI_GIAO, qLKC_C4_GIAONHAN_KIM.NGAY_GIAO,
-                                                       qLKC_C4_GIAONHAN_KIM.NGAY_NHAN, qLKC_C4_GIAONHAN_KIM.NOI_DUNG
+                                                       qLKC_C4_GIAONHAN_KIM.NGAY_NHAN, qLKC_C4_GIAONHAN_KIM.NOI_DUNG,qLKC_C4_GIAONHAN_KIM.ID_KIM
                                                       );
                 return result;
 
@@ -39,9 +39,9 @@ namespace API_PCHY.Models.QUAN_TRI.QLKC_C4_GIAONHAN_KIM
             {
                 Guid id = Guid.NewGuid();
                 string str_id = id.ToString();
-                string result = helper.ExcuteNonQuery("PKG_QLKC_THUAN.create_PM_QLKC_C4_GIAONHAN_KIM", "p_Error",
-                                                        "p_SO_LUONG_GIAO", "p_SO_LUONG_TRA", "p_SO_LUONG_THUHOI", "p_LOAI", "p_DONVI_TINH", "p_DON_VI_GIAO", "p_DON_VI_NHAN", "p_NGUOI_NHAN", "p_NGUOI_GIAO", "p_NGAY_GIAO", "p_NGAY_NHAN", "p_TRANG_THAI", "p_LOAI_BBAN", "p_NOIDUNG",
-                                                       qLKC_C4_GIAONHAN_KIM.SO_LUONG_GIAO, qLKC_C4_GIAONHAN_KIM.SO_LUONG_TRA, qLKC_C4_GIAONHAN_KIM.SO_LUONG_THUHOI, qLKC_C4_GIAONHAN_KIM.LOAI, qLKC_C4_GIAONHAN_KIM.DONVI_TINH, qLKC_C4_GIAONHAN_KIM.DON_VI_GIAO, qLKC_C4_GIAONHAN_KIM.DON_VI_NHAN, qLKC_C4_GIAONHAN_KIM.NGUOI_NHAN, qLKC_C4_GIAONHAN_KIM.NGUOI_GIAO, qLKC_C4_GIAONHAN_KIM.NGAY_GIAO, qLKC_C4_GIAONHAN_KIM.NGAY_NHAN, qLKC_C4_GIAONHAN_KIM.TRANG_THAI, qLKC_C4_GIAONHAN_KIM.LOAI_BBAN, qLKC_C4_GIAONHAN_KIM.NOI_DUNG
+                string result = helper.ExcuteNonQuery("PKG_QLKC_KIEN.create_PM_QLKC_C4_GIAONHAN_KIM", "p_Error",
+                                                        "p_SO_LUONG_GIAO", "p_SO_LUONG_TRA", "p_SO_LUONG_THUHOI", "p_LOAI", "p_DONVI_TINH", "p_DON_VI_GIAO", "p_DON_VI_NHAN", "p_NGUOI_NHAN", "p_NGUOI_GIAO", "p_NGAY_GIAO", "p_NGAY_NHAN", "p_TRANG_THAI", "p_LOAI_BBAN", "p_NOIDUNG", "p_ID_KIM", "p_MADONVIQLY",
+                                                       qLKC_C4_GIAONHAN_KIM.SO_LUONG_GIAO, qLKC_C4_GIAONHAN_KIM.SO_LUONG_TRA, qLKC_C4_GIAONHAN_KIM.SO_LUONG_THUHOI, qLKC_C4_GIAONHAN_KIM.LOAI, qLKC_C4_GIAONHAN_KIM.DONVI_TINH, qLKC_C4_GIAONHAN_KIM.DON_VI_GIAO, qLKC_C4_GIAONHAN_KIM.DON_VI_NHAN, qLKC_C4_GIAONHAN_KIM.NGUOI_NHAN, qLKC_C4_GIAONHAN_KIM.NGUOI_GIAO, qLKC_C4_GIAONHAN_KIM.NGAY_GIAO, qLKC_C4_GIAONHAN_KIM.NGAY_NHAN, qLKC_C4_GIAONHAN_KIM.TRANG_THAI, qLKC_C4_GIAONHAN_KIM.LOAI_BBAN, qLKC_C4_GIAONHAN_KIM.NOI_DUNG, qLKC_C4_GIAONHAN_KIM.ID_KIM,qLKC_C4_GIAONHAN_KIM.MADONVIQLY
                                                       );
                 return result;
             }
@@ -254,6 +254,20 @@ namespace API_PCHY.Models.QUAN_TRI.QLKC_C4_GIAONHAN_KIM
         }
 
 
+        public string update_KIM_TRANGTHAI(string iD_KIM, int trangThai) // Thêm tham số trạng thái
+        {
+            try
+            {
+                string result = helper.ExcuteNonQuery("PKG_QLKC_KIEN.update_KIM_TRANGTHAI", "p_ID_KIM","p_TRANG_THAI", "p_Error", iD_KIM, trangThai);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                // Log lỗi vào file hoặc hệ thống giám sát.
+                Console.WriteLine($"Exception: {ex.Message}");
+                throw;
+            }
+        }
         public string update_huyPM_QLKC_C4_GIAONHAN_KIM(int id)
         {
             try
@@ -286,12 +300,20 @@ namespace API_PCHY.Models.QUAN_TRI.QLKC_C4_GIAONHAN_KIM
                 throw;
             }
         }
+<<<<<<< Updated upstream
         public List<QLKC_C4_GIAONHAN_KIM_Model> search_C4_GIAONHAN_KIM(int? pageIndex, int? pageSize, string? DON_VI_GIAO, string? DON_VI_NHAN, int? TRANG_THAI, string? LOAI, out int totalItems)
+=======
+        public List<QLKC_C4_GIAONHAN_KIM_Model> search_C4_GIAONHAN_KIM(int? pageIndex, int? pageSize, string? DON_VI_GIAO, string? DON_VI_NHAN, int? TRANG_THAI, string? LOAI, DateTime? NGAY_GIAO, DateTime? NGAY_NHAN, string? userId, string? ma_dviqly, out int totalItems)
+>>>>>>> Stashed changes
         {
             totalItems = 0;
             try
             {
+<<<<<<< Updated upstream
                 DataTable db = helper.ExcuteReader("PKG_QLKC_KIEN.search_C4_GIAONHAN_KIM", "p_page_index", "p_page_size", "p_DON_VI_GIAO", "p_DON_VI_NHAN", "p_TRANG_THAI", "p_LOAI", pageIndex, pageSize, DON_VI_GIAO, DON_VI_NHAN, TRANG_THAI, LOAI);
+=======
+                DataTable db = helper.ExcuteReader("PKG_QLKC_KIEN.search_C4_GIAONHAN_KIM", "p_page_index", "p_page_size", "p_DON_VI_GIAO", "p_DON_VI_NHAN", "p_TRANG_THAI", "p_LOAI", "p_NGAY_GIAO", "p_NGAY_NHAN", "p_UserId", "p_MADONVIQLY",pageIndex, pageSize, DON_VI_GIAO, DON_VI_NHAN, TRANG_THAI, LOAI, NGAY_GIAO, NGAY_NHAN, userId, ma_dviqly);
+>>>>>>> Stashed changes
 
                 if (db != null)
                 {
@@ -316,7 +338,9 @@ namespace API_PCHY.Models.QUAN_TRI.QLKC_C4_GIAONHAN_KIM
                         model.TRANG_THAI = db.Rows[i]["TRANG_THAI"] != DBNull.Value ? Convert.ToInt32(db.Rows[i]["TRANG_THAI"]) : 0;
                         model.LOAI_BBAN = db.Rows[i]["LOAI_BBAN"] != DBNull.Value ? Convert.ToInt32(db.Rows[i]["LOAI_BBAN"]) : 0;
                         model.NOI_DUNG = db.Rows[i]["NOI_DUNG"] != DBNull.Value ? db.Rows[i]["NOI_DUNG"].ToString() : null;
-
+                        model.ID_KIM = db.Rows[i]["ID_KIM"] != DBNull.Value ? db.Rows[i]["ID_KIM"].ToString() : null;
+                        model.NGAY_TRA = db.Rows[i]["NGAY_TRA"] != DBNull.Value ? Convert.ToDateTime(db.Rows[i]["NGAY_TRA"]) : (DateTime?)null;
+                        model.MADONVIQLY = db.Rows[i]["MADONVIQLY"] != DBNull.Value ? db.Rows[i]["MADONVIQLY"].ToString() : null;
                         results.Add(model);
                     }
 
