@@ -4,7 +4,7 @@ using System.Data;
 using System;
 using APIPCHY_PhanQuyen.Models.QLKC.C3_GIAONHAN_TEMCHI;
 
-namespace APIPCHY_PhanQuyen.Models.QLKC.C3_GIAONHAN_TEMCHI
+namespace QLKC_API.Models.QLKC.C3_GIAONHAN_TEMCHI
 {
     public class C3_GIAONHAN_TEMCHI_Manager
 
@@ -24,7 +24,7 @@ namespace APIPCHY_PhanQuyen.Models.QLKC.C3_GIAONHAN_TEMCHI
 
                         tcgn.id = int.Parse(ds.Rows[i]["ID"].ToString());
 
-                        tcgn.so_luong = ds.Rows[i]["SOLUONG"] != DBNull.Value ? int.Parse(ds.Rows[i]["SOLUONG"].ToString()) : null;
+                        tcgn.soluong = ds.Rows[i]["SOLUONG"] != DBNull.Value ? int.Parse(ds.Rows[i]["SOLUONG"].ToString()) : null;
                         tcgn.loai = ds.Rows[i]["LOAI"] != DBNull.Value ? ds.Rows[i]["LOAI"].ToString() : null;
                         tcgn.donvi_tinh = ds.Rows[i]["DONVI_TINH"] != DBNull.Value ? ds.Rows[i]["DONVI_TINH"].ToString() : null;
                         tcgn.don_vi_giao = ds.Rows[i]["DON_VI_GIAO"] != DBNull.Value ? ds.Rows[i]["DON_VI_GIAO"].ToString() : null;
@@ -57,10 +57,10 @@ namespace APIPCHY_PhanQuyen.Models.QLKC.C3_GIAONHAN_TEMCHI
                 Console.WriteLine("test");
                 Guid id = Guid.NewGuid();
                 string str_id = id.ToString();
-                string result = helper.ExcuteNonQuery("PKG_QLKC_SANG.insert_QLKC_C3_GIAONHAN_TEMCHI", "p_Error",
+                string result = helper.ExcuteNonQuery("PKG_QLKC_HUYEN.create_PM_QLKC_C3_GIAONHAN_TEMCHI", "p_Error",
                                                     "p_SOLUONG", "p_LOAI", "p_DONVI_TINH", "p_DON_VI_GIAO", "p_DON_VI_NHAN", "p_NGUOI_NHAN",
                                                     "p_NGUOI_GIAO", "p_NGAY_GIAO", "p_NGAY_NHAN", "p_TRANG_THAI", "p_LOAI_BBAN",
-                                                    tcgn.so_luong, tcgn.loai, tcgn.donvi_tinh, tcgn.don_vi_giao, tcgn.don_vi_nhan, tcgn.nguoi_nhan,
+                                                    tcgn.soluong, tcgn.loai, tcgn.donvi_tinh, tcgn.don_vi_giao, tcgn.don_vi_nhan, tcgn.nguoi_nhan,
                                                     tcgn.nguoi_giao, tcgn.ngay_giao, tcgn.ngay_nhan, tcgn.trang_thai, tcgn.loai_bban);
 
 
@@ -80,7 +80,7 @@ namespace APIPCHY_PhanQuyen.Models.QLKC.C3_GIAONHAN_TEMCHI
                 string result = helper.ExcuteNonQuery("PKG_QLKC_SANG.update_QLKC_C3_GIAONHAN_TEMCHI", "p_Error",
                                                       "p_ID", "p_SOLUONG", "p_LOAI", "p_DONVI_TINH", "p_DON_VI_GIAO", "p_DON_VI_NHAN", "p_NGUOI_NHAN",
                                                       "p_NGUOI_GIAO", "p_NGAY_GIAO", "p_NGAY_NHAN", "p_TRANG_THAI", "p_LOAI_BBAN",
-                                                      tcgn.id, tcgn.so_luong, tcgn.loai, tcgn.donvi_tinh, tcgn.don_vi_giao, tcgn.don_vi_nhan, tcgn.nguoi_nhan,
+                                                      tcgn.id, tcgn.soluong, tcgn.loai, tcgn.donvi_tinh, tcgn.don_vi_giao, tcgn.don_vi_nhan, tcgn.nguoi_nhan,
                                                       tcgn.nguoi_giao, tcgn.ngay_giao, tcgn.ngay_nhan, tcgn.trang_thai, tcgn.loai_bban);
                 return result;
             }
@@ -104,51 +104,45 @@ namespace APIPCHY_PhanQuyen.Models.QLKC.C3_GIAONHAN_TEMCHI
         }
 
 
-        public List<C3_GIAONHAN_TEMCHI_Model> search_QLKC_C3_GIAONHAN_TEMCHI(int? pageSize, int? pageIndex, string? don_vi_giao, string? nguoi_nhan, int? loai_bban, out int totalItems)
+        public List<C3_GIAONHAN_TEMCHI_Model> search_QLKC_C3_GIAONHAN_TEMCHI(int? pageIndex, int? pageSize, string? don_vi_giao, string? don_vi_nhan, int? trang_thai, string? loai, out int totalItems)
         {
             totalItems = 0;
             try
             {
-                DataTable ds = helper.ExcuteReader("PKG_QLKC_SANG.search_QLKC_C3_GIAONHAN_TEMCHI", "p_page_index", "p_page_size",
-                                                   "p_DON_VI_GIAO", "p_NGUOI_NHAN", "p_LOAI_BBAN", pageIndex, pageSize, don_vi_giao, nguoi_nhan, loai_bban);
-                var count = ds.Rows.Count;
+                DataTable db = helper.ExcuteReader("PKG_QLKC_HUYEN.search_QLKC_C3_GIAONHAN_TEMCHI", "p_page_index", "p_page_size", "p_don_vi_giao", "p_don_vi_nhan", "p_trang_thai", "p_loai", pageIndex, pageSize, don_vi_giao, don_vi_nhan, trang_thai, loai);
 
-                if (pageSize > 0 && pageIndex > 0 && count > 0)
+                if (db != null)
                 {
-                    totalItems = int.Parse(ds.Rows[0]["RecordCount"].ToString());
+                    totalItems = int.Parse(db.Rows[0]["RecordCount"].ToString());
+                    List<C3_GIAONHAN_TEMCHI_Model> results = new List<C3_GIAONHAN_TEMCHI_Model>();
+                    for (int i = 0; i < db.Rows.Count; i++)
+                    {
+                        C3_GIAONHAN_TEMCHI_Model model = new C3_GIAONHAN_TEMCHI_Model();
+
+                        model.id = int.Parse(db.Rows[0]["ID"].ToString());
+                        model.soluong = db.Rows[0]["SOLUONG"] != DBNull.Value ? int.Parse(db.Rows[0]["SOLUONG"].ToString()) : null;
+                        model.loai = db.Rows[0]["LOAI"] != DBNull.Value ? db.Rows[0]["LOAI"].ToString() : null;
+                        model.donvi_tinh = db.Rows[0]["DONVI_TINH"] != DBNull.Value ? db.Rows[0]["DONVI_TINH"].ToString() : null;
+                        model.don_vi_giao = db.Rows[0]["DON_VI_GIAO"] != DBNull.Value ? db.Rows[0]["DON_VI_GIAO"].ToString() : null;
+                        model.don_vi_nhan = db.Rows[0]["DON_VI_NHAN"] != DBNull.Value ? db.Rows[0]["DON_VI_NHAN"].ToString() : null;
+                        model.nguoi_nhan = db.Rows[0]["NGUOI_NHAN"] != DBNull.Value ? db.Rows[0]["NGUOI_NHAN"].ToString() : null;
+                        model.nguoi_giao = db.Rows[0]["NGUOI_GIAO"] != DBNull.Value ? db.Rows[0]["NGUOI_GIAO"].ToString() : null;
+                        model.ngay_giao = db.Rows[0]["NGAY_GIAO"] != DBNull.Value ? DateTime.Parse(db.Rows[0]["NGAY_GIAO"].ToString()) : null;
+                        model.ngay_nhan = db.Rows[0]["NGAY_NHAN"] != DBNull.Value ? DateTime.Parse(db.Rows[0]["NGAY_NHAN"].ToString()) : null;
+                        model.trang_thai = db.Rows[0]["TRANG_THAI"] != DBNull.Value ? Convert.ToInt32(db.Rows[i]["TRANG_THAI"]) : 0;
+                        model.loai_bban = db.Rows[0]["LOAI_BBAN"] != DBNull.Value ? Convert.ToInt32(db.Rows[i]["LOAI_BBAN"]) : 0;
+
+
+                        results.Add(model);
+                    }
+
+
+                    return results;
                 }
-                if (ds == null || ds.Rows.Count == 0)
-                {
-                    totalItems = 0;
-                    return new List<C3_GIAONHAN_TEMCHI_Model>();
-                }
-
-
-                List<C3_GIAONHAN_TEMCHI_Model> list = new List<C3_GIAONHAN_TEMCHI_Model>();
-                for (int i = 0; i < ds.Rows.Count; i++)
-                {
-                    C3_GIAONHAN_TEMCHI_Model tcgn = new C3_GIAONHAN_TEMCHI_Model();
-                    tcgn.id = int.Parse(ds.Rows[0]["ID"].ToString());
-                    tcgn.so_luong = ds.Rows[i]["SOLUONG"] != DBNull.Value ? int.Parse(ds.Rows[i]["SOLUONG"].ToString()) : null;
-                    tcgn.loai = ds.Rows[i]["LOAI"] != DBNull.Value ? ds.Rows[i]["LOAI"].ToString() : null;
-                    tcgn.donvi_tinh = ds.Rows[i]["DONVI_TINH"] != DBNull.Value ? ds.Rows[i]["DONVI_TINH"].ToString() : null;
-                    tcgn.don_vi_giao = ds.Rows[i]["DON_VI_GIAO"] != DBNull.Value ? ds.Rows[i]["DON_VI_GIAO"].ToString() : null;
-                    tcgn.don_vi_nhan = ds.Rows[i]["DON_VI_NHAN"] != DBNull.Value ? ds.Rows[i]["DON_VI_NHAN"].ToString() : null;
-                    tcgn.nguoi_nhan = ds.Rows[i]["NGUOI_NHAN"] != DBNull.Value ? ds.Rows[i]["NGUOI_NHAN"].ToString() : null;
-                    tcgn.nguoi_giao = ds.Rows[i]["NGUOI_GIAO"] != DBNull.Value ? ds.Rows[i]["NGUOI_GIAO"].ToString() : null;
-                    tcgn.ngay_giao = ds.Rows[i]["NGAY_GIAO"] != DBNull.Value ? DateTime.Parse(ds.Rows[i]["NGAY_GIAO"].ToString()) : null;
-                    tcgn.ngay_nhan = ds.Rows[i]["NGAY_NHAN"] != DBNull.Value ? DateTime.Parse(ds.Rows[i]["NGAY_NHAN"].ToString()) : null;
-                    tcgn.trang_thai = ds.Rows[i]["TRANG_THAI"] != DBNull.Value ? int.Parse(ds.Rows[i]["TRANG_THAI"].ToString()) : null;
-                    tcgn.loai_bban = ds.Rows[i]["LOAI_BBAN"] != DBNull.Value ? int.Parse(ds.Rows[i]["LOAI_BBAN"].ToString()) : null;
-
-                    list.Add(tcgn);
-                }
-
-                return list;
+                else return null;
             }
             catch (Exception ex)
             {
-
                 throw ex;
             }
         }
@@ -164,7 +158,7 @@ namespace APIPCHY_PhanQuyen.Models.QLKC.C3_GIAONHAN_TEMCHI
                     C3_GIAONHAN_TEMCHI_Model tcgn = new C3_GIAONHAN_TEMCHI_Model();
 
                     tcgn.id = int.Parse(ds.Rows[0]["ID"].ToString());
-                    tcgn.so_luong = ds.Rows[0]["SOLUONG"] != DBNull.Value ? int.Parse(ds.Rows[0]["SOLUONG"].ToString()) : null;
+                    tcgn.soluong = ds.Rows[0]["SOLUONG"] != DBNull.Value ? int.Parse(ds.Rows[0]["SOLUONG"].ToString()) : null;
                     tcgn.loai = ds.Rows[0]["LOAI"] != DBNull.Value ? ds.Rows[0]["LOAI"].ToString() : null;
                     tcgn.donvi_tinh = ds.Rows[0]["DONVI_TINH"] != DBNull.Value ? ds.Rows[0]["DONVI_TINH"].ToString() : null;
                     tcgn.don_vi_giao = ds.Rows[0]["DON_VI_GIAO"] != DBNull.Value ? ds.Rows[0]["DON_VI_GIAO"].ToString() : null;
@@ -187,6 +181,119 @@ namespace APIPCHY_PhanQuyen.Models.QLKC.C3_GIAONHAN_TEMCHI
             catch (Exception ex)
             {
                 return null;
+            }
+        }
+
+        public string update_kyC1_PM_QLKC_C3_GIAONHAN_TEMCHI(int id)
+        {
+            try
+            {
+                string result = helper.ExcuteNonQuery("PKG_QLKC_HUYEN.update_kyC1_PM_QLKC_C3_GIAONHAN_TEMCHI", "p_Error",
+                                                      "p_ID", id);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public string update_kyC2_PM_QLKC_C3_GIAONHAN_TEMCHI(int id)
+        {
+            try
+            {
+                string result = helper.ExcuteNonQuery("PKG_QLKC_HUYEN.update_kyC2_PM_C3_GIAONHAN_TEMCHI", "p_Error",
+                                                      "p_ID", id);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public string update_TL_PM_QLKC_C3_GIAONHAN_TEMCHI(int id)
+        {
+            try
+            {
+                string result = helper.ExcuteNonQuery("PKG_QLKC_HUYEN.update_TL_PM_QLKC_C3_GIAONHAN_TEMCHI", "p_Error",
+                                                      "p_ID", id);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+
+        public string update_kyC1_PQT_QLKC_C3_GIAONHAN_TEMCHI(int id)
+        {
+            try
+            {
+                string result = helper.ExcuteNonQuery("PKG_QLKC_HUYEN.update_kyC1_PQT_C3_GIAONHAN_TEMCHI", "p_Error",
+                                                      "p_ID", id);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public string update_kyC2_PQT_QLKC_C3_GIAONHAN_TEMCHI(int id)
+        {
+            try
+            {
+                string result = helper.ExcuteNonQuery("PKG_QLKC_HUYEN.update_kyC2_PQT_QLKC_C3_GIAONHAN_TEMCHI", "p_Error",
+                                                      "p_ID", id);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public string update_TL_PQT_QLKC_C3_GIAONHAN_TEMCHI(int id)
+        {
+            try
+            {
+                string result = helper.ExcuteNonQuery("PKG_QLKC_HUYEN.update_TL_PQT_QLKC_C3_GIAONHAN_TEMCHI", "p_Error",
+                                                      "p_ID", id);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public string update_huyPM_QLKC_C3_GIAONHAN_TEMCHI(int id)
+        {
+            try
+            {
+                string result = helper.ExcuteNonQuery("PKG_QLKC_HUYEN.update_huyPM_QLKC_C3_GIAONHAN_TEMCHI", "p_Error",
+                                                      "p_ID", id);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public string update_LoaiBBan_QLKC_C3_GIAONHAN_TEMCHI(int id)
+        {
+            try
+            {
+                string result = helper.ExcuteNonQuery("PKG_QLKC_HUYEN.update_loaiBBan_QLKC_C3_GIAONHAN_TEMCHI", "p_Error",
+                                                      "p_ID", id);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
         }
 
