@@ -1,300 +1,257 @@
-﻿using APIPCHY.Helpers;
-using System.Collections.Generic;
-using System.Data;
-using System;
+﻿using QLKC_API.Models.QLKC.C3_GIAONHAN_TEMCHI;
+using Microsoft.AspNetCore.Mvc;
 using QLKC_API.Models.QLKC.C3_GIAONHAN_TEMCHI;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
-namespace QLKC_API.Models.Controllers.QLKC.C3_GIAONHAN_TEMCHI
+namespace APIPCHY_PhanQuyen.Controllers.C3_GIAONHAN_TEMCHI
 {
-    public class C3_GIAONHAN_TEMCHI_Manager
+    [Route("APIPCHY/[controller]")]
+    [ApiController]
+    public class C3_GIAONHAN_TEMCHIController : ControllerBase
     {
-        DataHelper helper = new DataHelper();
-        public List<C3_GIAONHAN_TEMCHI_Model> getALL_QLKC_C3_GIAONHAN_TEMCHI()
+        C3_GIAONHAN_TEMCHI_Manager db = new C3_GIAONHAN_TEMCHI_Manager();
+
+        [HttpGet("getAll_QLKC_C3_GIAONHAN_TEMCHI")]
+        public ActionResult Get()
         {
             try
             {
-                DataTable ds = helper.ExcuteReader("PKG_QLKC_SANG.getAll_QLKC_C3_GIAONHAN_TEMCHI");
-                List<C3_GIAONHAN_TEMCHI_Model> result = new List<C3_GIAONHAN_TEMCHI_Model>();
-                if (ds != null)
+                List<C3_GIAONHAN_TEMCHI_Model> result = db.getALL_QLKC_C3_GIAONHAN_TEMCHI();
+
+                return result != null ? Ok(result) : NotFound();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [Route("insert_QLKC_C3_GIAONHAN_TEMCHI")]
+        [HttpPost]
+        public IActionResult insert_QLKC_C3_GIAONHAN_TEMCHI([FromBody] C3_GIAONHAN_TEMCHI_Model gntc)
+        {
+            string result = db.insert_QLKC_C3_GIAONHAN_TEMCHI(gntc);
+            return string.IsNullOrEmpty(result) ? Ok() : BadRequest(result);
+        }
+
+        [Route("update_QLKC_C3_GIAONHAN_TEMCHI")]
+        [HttpPut]
+        public IActionResult update_C3_GIAONHAN_TEMCHI([FromBody] C3_GIAONHAN_TEMCHI_Model gntc)
+        {
+            string result = db.update_QLKC_C3_GIAONHAN_TEMCHI(gntc);
+            return string.IsNullOrEmpty(result) ? Ok() : BadRequest(result);
+        }
+
+        [Route("delete_QLKC_C3_GIAONHAN_TEMCHI")]
+        [HttpDelete]
+        public IActionResult delete_C3_GIAONHAN_TEMCHI(int id)
+        {
+            string result = db.delete_QLKC_C3_GIAONHAN_TEMCHI(id);
+            return string.IsNullOrEmpty(result) ? Ok() : BadRequest(result);
+        }
+
+        [Route("get_QLKC_C3_GIAONHAN_TEMCHI_ByID")]
+        [HttpGet]
+        public IActionResult get_C3_GIAONHAN_TEMCHI_ByID(int id)
+        {
+            C3_GIAONHAN_TEMCHI_Model result = db.get_QLKC_C3_GIAONHAN_TEMCHI_ByID(id);
+            return result != null ? Ok(result) : NotFound();
+        }
+
+        [Route("search_QLKC_C3_GIAONHAN_TEMCHI")]
+        [HttpPost]
+        public IActionResult search_QLKC_C3_GIAONHAN_TEMCHI([FromBody] Dictionary<string, object> formData)
+        {
+            try
+            {
+                int? pageIndex = 0;
+                int? pageSize = 0;
+                string don_vi_giao = null;
+                string don_vi_nhan = null;
+                int? trang_thai = null;
+                string? loai = null;
+                if (formData.TryGetValue("pageIndex", out var pageIndexValue) && int.TryParse(pageIndexValue?.ToString(), out var parsedPageIndex))
                 {
-                    for (int i = 0; i < ds.Rows.Count; i++)
-                    {
-                        C3_GIAONHAN_TEMCHI_Model tcgn = new C3_GIAONHAN_TEMCHI_Model();
-
-                        tcgn.id = int.Parse(ds.Rows[i]["ID"].ToString());
-
-                        tcgn.soluong = ds.Rows[i]["SOLUONG"] != DBNull.Value ? int.Parse(ds.Rows[i]["SOLUONG"].ToString()) : null;
-                        tcgn.loai = ds.Rows[i]["LOAI"] != DBNull.Value ? ds.Rows[i]["LOAI"].ToString() : null;
-                        tcgn.donvi_tinh = ds.Rows[i]["DONVI_TINH"] != DBNull.Value ? ds.Rows[i]["DONVI_TINH"].ToString() : null;
-                        tcgn.don_vi_giao = ds.Rows[i]["DON_VI_GIAO"] != DBNull.Value ? ds.Rows[i]["DON_VI_GIAO"].ToString() : null;
-                        tcgn.don_vi_nhan = ds.Rows[i]["DON_VI_NHAN"] != DBNull.Value ? ds.Rows[i]["DON_VI_NHAN"].ToString() : null;
-                        tcgn.nguoi_nhan = ds.Rows[i]["NGUOI_NHAN"] != DBNull.Value ? ds.Rows[i]["NGUOI_NHAN"].ToString() : null;
-                        tcgn.nguoi_giao = ds.Rows[i]["NGUOI_GIAO"] != DBNull.Value ? ds.Rows[i]["NGUOI_GIAO"].ToString() : null;
-                        tcgn.ngay_giao = ds.Rows[i]["NGAY_GIAO"] != DBNull.Value ? DateTime.Parse(ds.Rows[i]["NGAY_GIAO"].ToString()) : null;
-                        tcgn.ngay_nhan = ds.Rows[i]["NGAY_NHAN"] != DBNull.Value ? DateTime.Parse(ds.Rows[i]["NGAY_NHAN"].ToString()) : null;
-                        tcgn.trang_thai = ds.Rows[i]["TRANG_THAI"] != DBNull.Value ? int.Parse(ds.Rows[i]["TRANG_THAI"].ToString()) : null;
-                        tcgn.loai_bban = ds.Rows[i]["LOAI_BBAN"] != DBNull.Value ? int.Parse(ds.Rows[i]["LOAI_BBAN"].ToString()) : null;
-
-                        result.Add(tcgn);
-                    }
+                    pageIndex = parsedPageIndex;
                 }
-                else
+
+                if (formData.TryGetValue("pageSize", out var pageSizeValue) && int.TryParse(pageSizeValue?.ToString(), out var parsedPageSize))
                 {
-                    result = null;
+                    pageSize = parsedPageSize;
                 }
-                return result;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-        }
-        public string insert_QLKC_C3_GIAONHAN_TEMCHI(C3_GIAONHAN_TEMCHI_Model tcgn)
-        {
-            try
-            {
-                Console.WriteLine("test");
-                Guid id = Guid.NewGuid();
-                string str_id = id.ToString();
-                string result = helper.ExcuteNonQuery("PKG_QLKC_HUYEN.create_PM_QLKC_C3_GIAONHAN_TEMCHI", "p_Error",
-                                                    "p_SOLUONG", "p_LOAI", "p_DONVI_TINH", "p_DON_VI_GIAO", "p_DON_VI_NHAN", "p_NGUOI_NHAN",
-                                                    "p_NGUOI_GIAO", "p_NGAY_GIAO", "p_NGAY_NHAN", "p_TRANG_THAI", "p_LOAI_BBAN",
-                                                    tcgn.soluong, tcgn.loai, tcgn.donvi_tinh, tcgn.don_vi_giao, tcgn.don_vi_nhan, tcgn.nguoi_nhan,
-                                                    tcgn.nguoi_giao, tcgn.ngay_giao, tcgn.ngay_nhan, tcgn.trang_thai, tcgn.loai_bban);
 
-
-                return result;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-
-        public string update_QLKC_C3_GIAONHAN_TEMCHI(C3_GIAONHAN_TEMCHI_Model tcgn)
-        {
-            try
-            {
-                string str_id = tcgn.id.ToString();
-                string result = helper.ExcuteNonQuery("PKG_QLKC_SANG.update_QLKC_C3_GIAONHAN_TEMCHI", "p_Error",
-                                                      "p_ID", "p_SOLUONG", "p_LOAI", "p_DONVI_TINH", "p_DON_VI_GIAO", "p_DON_VI_NHAN", "p_NGUOI_NHAN",
-                                                      "p_NGUOI_GIAO", "p_NGAY_GIAO", "p_NGAY_NHAN", "p_TRANG_THAI", "p_LOAI_BBAN",
-                                                      tcgn.id, tcgn.soluong, tcgn.loai, tcgn.donvi_tinh, tcgn.don_vi_giao, tcgn.don_vi_nhan, tcgn.nguoi_nhan,
-                                                      tcgn.nguoi_giao, tcgn.ngay_giao, tcgn.ngay_nhan, tcgn.trang_thai, tcgn.loai_bban);
-                return result;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-
-        public string delete_QLKC_C3_GIAONHAN_TEMCHI(int id)
-        {
-            try
-            {
-                string result = helper.ExcuteNonQuery("PKG_QLKC_SANG.delete_QLKC_C3_GIAONHAN_TEMCHI", "p_Error", "p_ID", id);
-                return result;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-
-
-        public List<C3_GIAONHAN_TEMCHI_Model> search_QLKC_C3_GIAONHAN_TEMCHI(int? pageIndex, int? pageSize, string? don_vi_giao, string? don_vi_nhan, int? trang_thai, string? loai, out int totalItems)
-        {
-            totalItems = 0;
-            try
-            {
-                DataTable db = helper.ExcuteReader("PKG_QLKC_HUYEN.search_QLKC_C3_GIAONHAN_TEMCHI", "p_page_index", "p_page_size", "p_don_vi_giao", "p_don_vi_nhan", "p_trang_thai", "p_loai", pageIndex, pageSize, don_vi_giao, don_vi_nhan, trang_thai, loai);
-
-                if (db != null)
+                if (formData.TryGetValue("don_vi_giao", out var don_vi_giao_value))
                 {
-                    totalItems = int.Parse(db.Rows[0]["RecordCount"].ToString());
-                    List<C3_GIAONHAN_TEMCHI_Model> results = new List<C3_GIAONHAN_TEMCHI_Model>();
-                    for (int i = 0; i < db.Rows.Count; i++)
-                    {
-                        C3_GIAONHAN_TEMCHI_Model model = new C3_GIAONHAN_TEMCHI_Model();
-
-                        model.id = int.Parse(db.Rows[0]["ID"].ToString());
-                        model.soluong = db.Rows[0]["SOLUONG"] != DBNull.Value ? int.Parse(db.Rows[0]["SOLUONG"].ToString()) : null;
-                        model.loai = db.Rows[0]["LOAI"] != DBNull.Value ? db.Rows[0]["LOAI"].ToString() : null;
-                        model.donvi_tinh = db.Rows[0]["DONVI_TINH"] != DBNull.Value ? db.Rows[0]["DONVI_TINH"].ToString() : null;
-                        model.don_vi_giao = db.Rows[0]["DON_VI_GIAO"] != DBNull.Value ? db.Rows[0]["DON_VI_GIAO"].ToString() : null;
-                        model.don_vi_nhan = db.Rows[0]["DON_VI_NHAN"] != DBNull.Value ? db.Rows[0]["DON_VI_NHAN"].ToString() : null;
-                        model.nguoi_nhan = db.Rows[0]["NGUOI_NHAN"] != DBNull.Value ? db.Rows[0]["NGUOI_NHAN"].ToString() : null;
-                        model.nguoi_giao = db.Rows[0]["NGUOI_GIAO"] != DBNull.Value ? db.Rows[0]["NGUOI_GIAO"].ToString() : null;
-                        model.ngay_giao = db.Rows[0]["NGAY_GIAO"] != DBNull.Value ? DateTime.Parse(db.Rows[0]["NGAY_GIAO"].ToString()) : null;
-                        model.ngay_nhan = db.Rows[0]["NGAY_NHAN"] != DBNull.Value ? DateTime.Parse(db.Rows[0]["NGAY_NHAN"].ToString()) : null;
-                        model.trang_thai = db.Rows[0]["TRANG_THAI"] != DBNull.Value ? Convert.ToInt32(db.Rows[i]["TRANG_THAI"]) : 0;
-                        model.loai_bban = db.Rows[0]["LOAI_BBAN"] != DBNull.Value ? Convert.ToInt32(db.Rows[i]["LOAI_BBAN"]) : 0;
-
-
-                        results.Add(model);
-                    }
-
-
-                    return results;
+                    don_vi_giao = don_vi_giao_value?.ToString();
                 }
-                else return null;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
 
-        public C3_GIAONHAN_TEMCHI_Model get_QLKC_C3_GIAONHAN_TEMCHI_ByID(int id)
-        {
-            try
-            {
-                DataTable ds = helper.ExcuteReader("PKG_QLKC_SANG.get_QLKC_C3_GIAONHAN_TEMCHI_byID", "p_ID", id);
-
-                if (ds != null)
+                if (formData.TryGetValue("don_vi_nhan", out var don_vi_nhan_value))
                 {
-                    C3_GIAONHAN_TEMCHI_Model tcgn = new C3_GIAONHAN_TEMCHI_Model();
-
-                    tcgn.id = int.Parse(ds.Rows[0]["ID"].ToString());
-                    tcgn.soluong = ds.Rows[0]["SOLUONG"] != DBNull.Value ? int.Parse(ds.Rows[0]["SOLUONG"].ToString()) : null;
-                    tcgn.loai = ds.Rows[0]["LOAI"] != DBNull.Value ? ds.Rows[0]["LOAI"].ToString() : null;
-                    tcgn.donvi_tinh = ds.Rows[0]["DONVI_TINH"] != DBNull.Value ? ds.Rows[0]["DONVI_TINH"].ToString() : null;
-                    tcgn.don_vi_giao = ds.Rows[0]["DON_VI_GIAO"] != DBNull.Value ? ds.Rows[0]["DON_VI_GIAO"].ToString() : null;
-                    tcgn.don_vi_nhan = ds.Rows[0]["DON_VI_NHAN"] != DBNull.Value ? ds.Rows[0]["DON_VI_NHAN"].ToString() : null;
-                    tcgn.nguoi_nhan = ds.Rows[0]["NGUOI_NHAN"] != DBNull.Value ? ds.Rows[0]["NGUOI_NHAN"].ToString() : null;
-                    tcgn.nguoi_giao = ds.Rows[0]["NGUOI_GIAO"] != DBNull.Value ? ds.Rows[0]["NGUOI_GIAO"].ToString() : null;
-                    tcgn.ngay_giao = ds.Rows[0]["NGAY_GIAO"] != DBNull.Value ? DateTime.Parse(ds.Rows[0]["NGAY_GIAO"].ToString()) : null;
-                    tcgn.ngay_nhan = ds.Rows[0]["NGAY_NHAN"] != DBNull.Value ? DateTime.Parse(ds.Rows[0]["NGAY_NHAN"].ToString()) : null;
-                    tcgn.trang_thai = ds.Rows[0]["TRANG_THAI"] != DBNull.Value ? int.Parse(ds.Rows[0]["TRANG_THAI"].ToString()) : null;
-                    tcgn.loai_bban = ds.Rows[0]["LOAI_BBAN"] != DBNull.Value ? int.Parse(ds.Rows[0]["LOAI_BBAN"].ToString()) : null;
-
-                    return tcgn;
-
+                    don_vi_nhan = don_vi_nhan_value?.ToString();
                 }
-                else
+
+                if (formData.TryGetValue("trang_thai", out var trang_thai_value) && int.TryParse(trang_thai_value?.ToString(), out var parsedTrangThai))
                 {
-                    return null;
+                    trang_thai = parsedTrangThai;
                 }
+
+                if (formData.TryGetValue("loai", out var loaiValue))
+                {
+                    loai = loaiValue?.ToString();
+                }
+
+                int totalItems = 0;
+                List<C3_GIAONHAN_TEMCHI_Model> result = db.search_QLKC_C3_GIAONHAN_TEMCHI(pageIndex, pageSize, don_vi_giao, don_vi_nhan, trang_thai, loai, out totalItems);
+                return result != null ? Ok(new
+                {
+                    page = pageIndex,
+                    pageSize = pageSize,
+                    totalItems = totalItems,
+                    data = result,
+                    don_vi_giao = don_vi_giao,
+                    don_vi_nhan = don_vi_nhan,
+                    trang_thai = trang_thai,
+                    loai = loai
+                }) : NotFound();
+
+
+
             }
             catch (Exception ex)
             {
-                return null;
+                return BadRequest(ex.Message);
             }
         }
 
-        public string update_kyC1_PM_QLKC_C3_GIAONHAN_TEMCHI(int id)
+
+        [Route("update_kyC1_PM_QLKC_C3_GIAONHAN_TEMCHI")]
+        [HttpPut]
+        public IActionResult update_kyC1_PM_QLKC_C3_GIAONHAN_TEMCHI(int id)
         {
             try
             {
-                string result = helper.ExcuteNonQuery("PKG_QLKC_HUYEN.update_kyC1_PM_QLKC_C3_GIAONHAN_TEMCHI", "p_Error",
-                                                      "p_ID", id);
-                return result;
+                string result = db.update_kyC1_PM_QLKC_C3_GIAONHAN_TEMCHI(id);
+
+                return String.IsNullOrEmpty(result) ? Ok("Ký thành công") : BadRequest(result);
             }
             catch (Exception ex)
             {
-                throw ex;
+                return BadRequest(ex.Message);
             }
         }
 
-        public string update_kyC2_PM_QLKC_C3_GIAONHAN_TEMCHI(int id)
+
+        [Route("update_kyC1_PQT_QLKC_C3_GIAONHAN_TEMCHI")]
+        [HttpPut]
+        public IActionResult update_kyC1_PQT_QLKC_C3_GIAONHAN_KIM(int id)
         {
-            try
-            {
-                string result = helper.ExcuteNonQuery("PKG_QLKC_HUYEN.update_kyC2_PM_C3_GIAONHAN_TEMCHI", "p_Error",
-                                                      "p_ID", id);
-                return result;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+            string result = db.update_kyC1_PQT_QLKC_C3_GIAONHAN_TEMCHI(id);
+
+            return string.IsNullOrEmpty(result) ? Ok("Ký thành công") : BadRequest(result);
         }
 
-        public string update_TL_PM_QLKC_C3_GIAONHAN_TEMCHI(int id)
+
+
+        [Route("update_kyC2_PM_QLKC_C3_GIAONHAN_TEMCHI")]
+        [HttpPut]
+        public IActionResult update_kyC2_PM_QLKC_C3_GIAONHAN_TEMCHI(int id)
         {
-            try
+            string result = db.update_kyC2_PM_QLKC_C3_GIAONHAN_TEMCHI(id);
+
+            if (string.IsNullOrEmpty(result))
             {
-                string result = helper.ExcuteNonQuery("PKG_QLKC_HUYEN.update_TL_PM_QLKC_C3_GIAONHAN_TEMCHI", "p_Error",
-                                                      "p_ID", id);
-                return result;
+                return Ok(new { message = "Update successful" });
             }
-            catch (Exception ex)
+            else
             {
-                throw ex;
+                return BadRequest(new { error = result });
             }
         }
 
 
-        public string update_kyC1_PQT_QLKC_C3_GIAONHAN_TEMCHI(int id)
+        [Route("update_kyC2_PQT_C3_GIAONHAN_TEMCHI")]
+        [HttpPut]
+        public IActionResult update_kyC2_PQT_QLKC_C3_GIAONHAN_TEMCHI(int id)
         {
-            try
+            string result = db.update_kyC2_PQT_QLKC_C3_GIAONHAN_TEMCHI(id);
+
+            if (string.IsNullOrEmpty(result))
             {
-                string result = helper.ExcuteNonQuery("PKG_QLKC_HUYEN.update_kyC1_PQT_C3_GIAONHAN_TEMCHI", "p_Error",
-                                                      "p_ID", id);
-                return result;
+                return Ok(new { message = "Update successful" });
             }
-            catch (Exception ex)
+            else
             {
-                throw ex;
+                return BadRequest(new { error = result });
             }
         }
 
-        public string update_kyC2_PQT_QLKC_C3_GIAONHAN_TEMCHI(int id)
+
+
+        [Route("update_TL_PM_QLKC_C3_GIAONHAN_TEMCHI")]
+        [HttpPut]
+        public IActionResult update_TL_PM_QLKC_C3_GIAONHAN_TEMCHI(int id)
         {
-            try
+            string result = db.update_TL_PM_QLKC_C3_GIAONHAN_TEMCHI(id);
+
+            if (string.IsNullOrEmpty(result))
             {
-                string result = helper.ExcuteNonQuery("PKG_QLKC_HUYEN.update_kyC2_PQT_QLKC_C3_GIAONHAN_TEMCHI", "p_Error",
-                                                      "p_ID", id);
-                return result;
+                return Ok(new { message = "Update successful" });
             }
-            catch (Exception ex)
+            else
             {
-                throw ex;
+                return BadRequest(new { error = result });
             }
         }
 
-        public string update_TL_PQT_QLKC_C3_GIAONHAN_TEMCHI(int id)
+
+        [Route("update_TL_PQT_QLKC_C3_GIAONHAN_TEMCHI")]
+        [HttpPut]
+        public IActionResult update_TL_PQT_QLKC_C3_GIAONHAN_TEMCHI(int id)
         {
-            try
+            string result = db.update_TL_PQT_QLKC_C3_GIAONHAN_TEMCHI(id);
+
+            if (string.IsNullOrEmpty(result))
             {
-                string result = helper.ExcuteNonQuery("PKG_QLKC_HUYEN.update_TL_PQT_QLKC_C3_GIAONHAN_TEMCHI", "p_Error",
-                                                      "p_ID", id);
-                return result;
+                return Ok(new { message = "Update successful" });
             }
-            catch (Exception ex)
+            else
             {
-                throw ex;
+                return BadRequest(new { error = result });
             }
         }
 
-        public string update_huyPM_QLKC_C3_GIAONHAN_TEMCHI(int id)
+        [Route("update_huyPM_QLKC_C3_GIAONHAN_TEMCHI")]
+        [HttpPut]
+        public IActionResult update_huyPM_QLKC_C3_GIAONHAN_TEMCHI(int id)
         {
-            try
+            string result = db.update_huyPM_QLKC_C3_GIAONHAN_TEMCHI(id);
+
+            if (string.IsNullOrEmpty(result))
             {
-                string result = helper.ExcuteNonQuery("PKG_QLKC_HUYEN.update_huyPM_QLKC_C3_GIAONHAN_TEMCHI", "p_Error",
-                                                      "p_ID", id);
-                return result;
+                return Ok(new { message = "Update successful" });
             }
-            catch (Exception ex)
+            else
             {
-                throw ex;
+                return BadRequest(new { error = result });
             }
         }
 
-        public string update_LoaiBBan_QLKC_C3_GIAONHAN_TEMCHI(int id)
+        [Route("update_LoaiBBan_QLKC_C3_GIAONHAN_TEMCHI")]
+        [HttpPut]
+        public IActionResult update_LoaiBBan_QLKC_C3_GIAONHAN_TEMCHI(int id)
         {
-            try
+            string result = db.update_LoaiBBan_QLKC_C3_GIAONHAN_TEMCHI(id);
+
+            if (string.IsNullOrEmpty(result))
             {
-                string result = helper.ExcuteNonQuery("PKG_QLKC_HUYEN.update_loaiBBan_QLKC_C3_GIAONHAN_TEMCHI", "p_Error",
-                                                      "p_ID", id);
-                return result;
+                return Ok(new { message = "Update successful" });
             }
-            catch (Exception ex)
+            else
             {
-                throw ex;
+                return BadRequest(new { Error = result });
             }
         }
-
     }
 }
