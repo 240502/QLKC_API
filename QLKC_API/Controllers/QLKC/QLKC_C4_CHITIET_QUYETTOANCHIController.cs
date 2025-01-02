@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace API_PCHY.Controllers.QLKC.QLKC_C4_CHITIET_QUYETTOANCHI
 {
-    [Route("api/[controller]")]
+    [Route("APIPCHY/[controller]")]
     [ApiController]
     public class QLKC_C4_CHITIET_QUYETTOANCHIController : ControllerBase
     {
