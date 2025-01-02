@@ -69,6 +69,19 @@ namespace APIPCHY_PhanQuyen.Models.QLKC.QLKC_C4_GIAONHAN_TEMCHI
                 throw ex;
             }
         }
+        public string update_NguoiNhan_QLKC_C4_GIAONHAN_TEMCHI(string? ht_nguoidung_id, int? bienban_id)
+        {
+            try
+            {
+                string result = helper.ExcuteNonQuery("PKG_QLKC_CHIEN.update_NguoiNhan_QLKC_C4_GIAONHAN_TEMCHI", "p_Error", "p_ht_nguoidung_id", "p_bienban_id",
+                                    ht_nguoidung_id, bienban_id);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public List<QLKC_C4_GIAONHAN_TEMCHI_Model> get_QLKC_C4_GIAONHAN_TEMCHI(int id_bienBan)
         {
             string strErr = "";

@@ -191,15 +191,39 @@ namespace APIPCHY_PhanQuyen.Controllers.QLKC.QLKC_C4_GIAONHAN_TEMCHI
             }
             catch (Exception ex)
             {
-                return Ok(new
-                {
-                    page = 0,
-                    pageSize = 0,
-                    totalItems = 0,
-                    data = new List<QLKC_C4_GIAONHAN_TEMCHI_Model>(), // Trả về mảng trống
+                //return Ok(new
+                //{
+                //    page = 0,
+                //    pageSize = 0,
+                //    totalItems = 0,
+                //    data = new List<QLKC_C4_GIAONHAN_TEMCHI_Model>(), // Trả về mảng trống
 
-                });
-                //throw ex;
+                //});
+                throw ex;
+            }
+        }
+        [Route("update_NguoiNhan_QLKC_C4_GIAONHAN_TEMCHI")]
+        [HttpPut]
+        public IActionResult update_NguoiNhan_QLKC_C4_GIAONHAN_TEMCHI([FromBody] Dictionary<string, object> formData)
+        {
+            try
+            {
+                int? bienban_id = null;
+                string? ht_nguoidung_id = null;
+                if (formData.Keys.Contains("ht_nguoidung_id") && !string.IsNullOrEmpty(formData["ht_nguoidung_id"].ToString()))
+                {
+                    ht_nguoidung_id = formData["ht_nguoidung_id"].ToString();
+                }
+                if (formData.Keys.Contains("bienban_id") && !string.IsNullOrEmpty(formData["bienban_id"].ToString()))
+                {
+                    bienban_id = int.Parse(formData["bienban_id"].ToString());
+                }
+                string result = db.update_NguoiNhan_QLKC_C4_GIAONHAN_TEMCHI(ht_nguoidung_id, bienban_id);
+                return String.IsNullOrEmpty(result) ? Ok("success") : BadRequest(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
             }
         }
         [Route("get_HT_NGUOIDUNGbyMA_DVIQLY")]
