@@ -1,6 +1,5 @@
 ﻿using QLKC_API.Models.QLKC.C3_GIAONHAN_TEMCHI;
 using Microsoft.AspNetCore.Mvc;
-using QLKC_API.Models.QLKC.C3_GIAONHAN_TEMCHI;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -7,6 +7,7 @@ using API_PCHY.Models.QUAN_TRI.QLKC_C4_GIAONHAN_KIM;
 using Newtonsoft.Json.Linq;
 using API_PCHY.Models.QUAN_TRI.QLKC_KHO_CHI_TEM;
 using System.Linq;
+using APIPCHY.Models.QUAN_TRI.QLKC_C4_GIAONHAN_KIM;
 
 namespace API_PCHY.Controllers.QUAN_TRI.QLKC_C4_GIAONHAN_KIM
 {
@@ -76,6 +77,49 @@ namespace API_PCHY.Controllers.QUAN_TRI.QLKC_C4_GIAONHAN_KIM
                 return BadRequest(ex.Message);
             }
         }
+        [Route("update_KIM_TRANGTHAI")]
+        [HttpPut]
+        public IActionResult update_KIM_TRANGTHAI(string iD_KIM, int trangThai) // Thêm tham số trạng thái
+        {
+            try
+            {
+                // Kiểm tra nếu iD_KIM null hoặc rỗng
+                if (string.IsNullOrWhiteSpace(iD_KIM))
+                {
+                    return BadRequest("ID_KIM không được để trống.");
+                }
+
+                // Tách và kiểm tra các giá trị ID nếu cần
+                var ids = iD_KIM.Trim('"') // Loại bỏ dấu " nếu có
+                                .Split(',') // Tách các giá trị
+                                .Select(id => id.Trim()) // Xóa khoảng trắng thừa
+                                .Where(id => !string.IsNullOrWhiteSpace(id)) // Loại bỏ giá trị rỗng
+                                .ToList();
+
+                if (!ids.Any())
+                {
+                    return BadRequest("ID_KIM không hợp lệ.");
+                }
+
+                // Gọi hàm xử lý trong cơ sở dữ liệu
+                string result = db.update_KIM_TRANGTHAI(string.Join(",", ids), trangThai); // Gọi hàm với tham số trạng thái
+
+                // Kiểm tra kết quả
+                if (string.IsNullOrEmpty(result))
+                {
+                    return Ok("Cập nhật thành công!");
+                }
+                else
+                {
+                    return BadRequest($"Có lỗi xảy ra: {result}");
+                }
+            }
+            catch (Exception ex)
+            {
+                // Bắt và ghi log lỗi nếu cần
+                return StatusCode(500, $"Lỗi hệ thống: {ex.Message}");
+            }
+        }
 
 
         [Route("update_kyC1_PQT_QLKC_C4_GIAONHAN_KIM")]
@@ -83,6 +127,7 @@ namespace API_PCHY.Controllers.QUAN_TRI.QLKC_C4_GIAONHAN_KIM
         public IActionResult update_kyC1_PQT_QLKC_C4_GIAONHAN_KIM(int id)
         {
             string result = db.update_kyC1_PQT_QLKC_C4_GIAONHAN_KIM(id);
+
             return string.IsNullOrEmpty(result) ? Ok("Ký thành công") : BadRequest(result);
         }
 
@@ -188,6 +233,7 @@ namespace API_PCHY.Controllers.QUAN_TRI.QLKC_C4_GIAONHAN_KIM
                 return BadRequest(new { Error = result });
             }
         }
+
         [Route("search_C4_GIAONHAN_KIM")]
         [HttpPost]
         public IActionResult search_C4_GIAONHAN_KIM([FromBody] Dictionary<string, object> formData)
@@ -200,8 +246,12 @@ namespace API_PCHY.Controllers.QUAN_TRI.QLKC_C4_GIAONHAN_KIM
                 string doN_VI_NHAN = null;
                 int? tranG_THAI = null;
                 string? loai = null;
+
                 DateTime? ngaY_GIAO = null;
                 DateTime? ngaY_NHAN = null;
+                string? userId = null;
+                string? ma_dviqly = null;
+
                 if (formData.TryGetValue("pageIndex", out var pageIndexValue) && int.TryParse(pageIndexValue?.ToString(), out var parsedPageIndex))
                 {
                     pageIndex = parsedPageIndex;
@@ -231,7 +281,6 @@ namespace API_PCHY.Controllers.QUAN_TRI.QLKC_C4_GIAONHAN_KIM
                 {
                     loai = loaiValue?.ToString();
                 }
-
                 if (formData.TryGetValue("ngaY_GIAO", out var ngaY_GIAOValue))
                 {
                     ngaY_GIAO = DateTime.Parse(ngaY_GIAOValue?.ToString()); // Gán giá trị cho ngaY_GIAO
@@ -241,11 +290,20 @@ namespace API_PCHY.Controllers.QUAN_TRI.QLKC_C4_GIAONHAN_KIM
                 {
                     ngaY_NHAN = DateTime.Parse(ngaY_NHANValue?.ToString()); // Gán giá trị cho ngaY_NHAN
                 }
+                if (formData.TryGetValue("userId", out var userIdValue)) // Lấy userId từ formData
+                {
+                    userId = userIdValue?.ToString();
+                }
+                if (formData.TryGetValue("ma_dviqly", out var ma_dviqlyValue)) // Lấy userId từ formData
+                {
+                    ma_dviqly = ma_dviqlyValue?.ToString();
+                }
 
 
 
                 int totalItems = 0;
-                List<QLKC_C4_GIAONHAN_KIM_Model> result = db.search_C4_GIAONHAN_KIM(pageIndex, pageSize, doN_VI_GIAO, doN_VI_NHAN, tranG_THAI, loai, ngaY_GIAO, ngaY_NHAN, out totalItems);
+                List<QLKC_C4_GIAONHAN_KIM_Model> result = db.search_C4_GIAONHAN_KIM(pageIndex, pageSize, doN_VI_GIAO, doN_VI_NHAN, tranG_THAI, loai, ngaY_GIAO, ngaY_NHAN, userId, ma_dviqly, out totalItems);
+
                 return result != null ? Ok(new
                 {
                     page = pageIndex,
@@ -256,8 +314,11 @@ namespace API_PCHY.Controllers.QUAN_TRI.QLKC_C4_GIAONHAN_KIM
                     doN_VI_NHAN = doN_VI_NHAN,
                     tranG_THAI = tranG_THAI,
                     loai = loai,
+
                     ngaY_GIAO = ngaY_GIAO,
                     ngaY_NHAN = ngaY_NHAN,
+                    ma_dviqly = ma_dviqly,
+
                 }) : NotFound();
 
 

@@ -10,6 +10,34 @@ namespace API_PCHY.Controllers.QLKC
     public class D_KIMController : ControllerBase
     {
            private D_KIMManager db = new D_KIMManager();
+        [Route("get_ALL_D_KIMTTByMA_DVIQLY1")]
+        [HttpGet]
+        public IActionResult get_ALL_D_KIMTTByMA_DVIQLY1(string ma_Dviqly)
+        {
+            try
+            {
+               
+
+
+                var results = db.get_ALL_D_KIMTTByMA_DVIQLY1(ma_Dviqly);
+                return results != null ? Ok(results) : NotFound("No data found!");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Error: {ex.Message}");
+            }
+        }
+
+        [Route("getD_KimInTable")]
+        [HttpGet]
+        public IActionResult getD_KimInTable()
+        {
+            List<D_KIMModel> list = db.getD_KimInTable();
+            return list != null ? Ok(list):NotFound();
+        }
+
+
+
             [HttpGet("getAll_D_KIM")]
             public ActionResult Get()
             {
@@ -55,6 +83,29 @@ namespace API_PCHY.Controllers.QLKC
                 D_KIMModel result = db.get_D_KIM_ByID(id_kim);
                 return result != null ? Ok(result) : NotFound();
             }
+        [Route("get_ALL_D_KIMTTByMA_DVIQLY")]
+        [HttpPost]
+        public IActionResult get_ALL_D_KIMTTByMA_DVIQLY([FromBody] Dictionary<string, object> formData)
+        {
+            try
+            {
+                string? ma_dviqly = formData.ContainsKey("ma_dviqly") && !string.IsNullOrEmpty(formData["ma_dviqly"]?.ToString())
+                    ? formData["ma_dviqly"].ToString()
+                    : null;
+
+                string? iD_KIM = formData.ContainsKey("iD_KIM") && !string.IsNullOrEmpty(formData["iD_KIM"]?.ToString())
+                    ? formData["iD_KIM"].ToString()
+                    : null;
+
+                var results = db.get_ALL_D_KIMTTByMA_DVIQLY(ma_dviqly, iD_KIM);
+                return results != null ? Ok(results) : NotFound("No data found!");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Error: {ex.Message}");
+            }
+        }
+
         [Route("get_D_KIMByMA_DVIQLY")]
         [HttpPost]
         public IActionResult get_ALL_D_KIMByMA_DVIQLY([FromBody] Dictionary<string,object> formData)
