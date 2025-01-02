@@ -1,5 +1,4 @@
-﻿using APIPCHY_PhanQuyen.Models.QLKC.DM_DONVI;
-using APIPCHY_PhanQuyen.Models.QLKC.QLKC_C4_GIAONHAN_TEMCHI;
+﻿using APIPCHY_PhanQuyen.Models.QLKC.QLKC_C4_GIAONHAN_TEMCHI;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -136,10 +135,10 @@ namespace APIPCHY_PhanQuyen.Controllers.QLKC.QLKC_C4_GIAONHAN_TEMCHI
             {
                 int? pageIndex = 1;
                 int? pageSize = 5;
-                //string ten = null;
-                //string ma = null;
                 int? trang_thai = -1;
                 int? loai_bienban = -1;
+                string don_vi_giao = null;
+                string don_vi_nhan = null;
                 if (formData.Keys.Contains("pageIndex") && !string.IsNullOrEmpty(formData["pageIndex"].ToString()))
                 {
                     pageIndex = int.Parse(formData["pageIndex"].ToString());
@@ -148,25 +147,24 @@ namespace APIPCHY_PhanQuyen.Controllers.QLKC.QLKC_C4_GIAONHAN_TEMCHI
                 {
                     pageSize = int.Parse(formData["pageSize"].ToString());
                 }
-                //if (formData.Keys.Contains("ten") && !string.IsNullOrEmpty(formData["ten"].ToString()))
-                //{
-                //    ten = formData["ten"].ToString();
-                //}
-                //if (formData.Keys.Contains("ma") && !string.IsNullOrEmpty(formData["ma"].ToString()))
-                //{
-                //    ma = formData["ma"].ToString();
-                //}
-                if (formData.Keys.Contains("trang_thai") && !string.IsNullOrEmpty(formData["trang_thai"].ToString()))
-                {
-                    trang_thai = int.Parse(formData["trang_thai"].ToString());
-                }
                 if (formData.Keys.Contains("loai_bienban") && !string.IsNullOrEmpty(formData["loai_bienban"].ToString()))
                 {
                     loai_bienban = int.Parse(formData["loai_bienban"].ToString());
                 }
-
+                if (formData.Keys.Contains("trang_thai") && !string.IsNullOrEmpty(formData["trang_thai"].ToString()))
+                {
+                    trang_thai = int.Parse(formData["trang_thai"].ToString());
+                }
+                if (formData.Keys.Contains("don_vi_giao") && !string.IsNullOrEmpty(formData["don_vi_giao"].ToString()))
+                {
+                    don_vi_giao = formData["don_vi_giao"].ToString();
+                }
+                if (formData.Keys.Contains("don_vi_nhan") && !string.IsNullOrEmpty(formData["don_vi_nhan"].ToString()))
+                {
+                    don_vi_nhan = formData["don_vi_nhan"].ToString();
+                }
                 int totalItems = 0;
-                List<QLKC_C4_GIAONHAN_TEMCHI_Model> result = db.search_QLKC_C4_GIAONHAN_TEMCHI(pageIndex, pageSize, trang_thai, loai_bienban, out totalItems);
+                List<QLKC_C4_GIAONHAN_TEMCHI_Model> result = db.search_QLKC_C4_GIAONHAN_TEMCHI(pageIndex, pageSize, trang_thai, loai_bienban,don_vi_giao, don_vi_nhan, out totalItems);
                 // Nếu không có kết quả, trả về mảng trống
                 if (result == null || result.Count == 0)
                 {
@@ -193,16 +191,22 @@ namespace APIPCHY_PhanQuyen.Controllers.QLKC.QLKC_C4_GIAONHAN_TEMCHI
             }
             catch (Exception ex)
             {
-                //return Ok(new
-                //{
-                //    page = 0,
-                //    pageSize = 0,
-                //    totalItems = 0,
-                //    data = new List<QLKC_C4_GIAONHAN_TEMCHI_Model>(), // Trả về mảng trống
+                return Ok(new
+                {
+                    page = 0,
+                    pageSize = 0,
+                    totalItems = 0,
+                    data = new List<QLKC_C4_GIAONHAN_TEMCHI_Model>(), // Trả về mảng trống
 
-                //});
-                throw ex;
+                });
+                //throw ex;
             }
+        }
+        [Route("get_HT_NGUOIDUNGbyMA_DVIQLY")]
+        [HttpGet]
+        public IActionResult get_HT_NGUOIDUNGbyMA_DVIQLY(string ma_dviqly)
+        {
+            return Ok(db.get_HT_NGUOIDUNGbyMA_DVIQLY(ma_dviqly));
         }
     }
     

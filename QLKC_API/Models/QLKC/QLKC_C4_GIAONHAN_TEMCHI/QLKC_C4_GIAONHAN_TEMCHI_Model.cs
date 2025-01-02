@@ -19,8 +19,14 @@ namespace APIPCHY_PhanQuyen.Models.QLKC.QLKC_C4_GIAONHAN_TEMCHI
         public string DONVI_TINH { get; set; }
 
         public string DON_VI_GIAO { get; set; }
+        public string TEN_DONVI_GIAO { get; set; }
+        public string TEN_PHONGBAN_GIAO { get; set; }
+        public string TEN_NGUOI_GIAO { get; set; }
 
         public string DON_VI_NHAN { get; set; }
+        public string TEN_DONVI_NHAN { get; set; }
+        public string TEN_PHONGBAN_NHAN { get; set; }
+        public string TEN_NGUOI_NHAN { get; set; }
 
         public string NGUOI_NHAN { get; set; }
 

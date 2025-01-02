@@ -5,13 +5,14 @@ using System.Collections.Generic;
 using System.Data;
 using System;
 using APIPCHY_PhanQuyen.Models.QLKC.QLKC_NHAP_CHI_TEM;
+using APIPCHY_PhanQuyen.Models.QLKC.HT_NGUOIDUNG;
 
 namespace APIPCHY_PhanQuyen.Models.QLKC.QLKC_C4_GIAONHAN_TEMCHI
 {
     public class QLKC_C4_GIAONHAN_TEMCHI_Manager
     {
         DataHelper helper = new DataHelper();
-        public List<QLKC_C4_GIAONHAN_TEMCHI_Model> search_QLKC_C4_GIAONHAN_TEMCHI(int? pageIndex, int? pageSize, int? trang_thai, int? loai_bienban, out int totalItems)
+        public List<QLKC_C4_GIAONHAN_TEMCHI_Model> search_QLKC_C4_GIAONHAN_TEMCHI(int? pageIndex, int? pageSize, int? trang_thai, int? loai_bienban,string don_vi_giao, string don_vi_nhan, out int totalItems)
         {
             totalItems = 0;
             try
@@ -19,9 +20,12 @@ namespace APIPCHY_PhanQuyen.Models.QLKC.QLKC_C4_GIAONHAN_TEMCHI
                 DataTable ds = helper.ExcuteReader("PKG_QLKC_CHIEN.search_QLKC_C4_GIAONHAN_TEMCHI",
                                                    "p_page_index", "p_page_size",
                                                    "p_TRANG_THAI", "p_LOAI_BBAN",
+                                                   "p_DONVI_GIAO","p_DONVI_NHAN ",
                                                    pageIndex, pageSize,
                                                    trang_thai == -1 ? DBNull.Value : trang_thai,
-                                                   loai_bienban == -1 ? DBNull.Value : loai_bienban);
+                                                   loai_bienban == -1 ? DBNull.Value : loai_bienban,
+                                                   don_vi_giao == "" ? DBNull.Value : don_vi_giao,
+                                                   don_vi_nhan == "" ? DBNull.Value : don_vi_nhan);
 
                 var count = ds.Rows.Count;
                 totalItems = int.Parse(ds.Rows[0]["RECORDCOUNT"].ToString());
@@ -39,8 +43,14 @@ namespace APIPCHY_PhanQuyen.Models.QLKC.QLKC_C4_GIAONHAN_TEMCHI
                         LOAI = ds.Rows[i]["LOAI"] != DBNull.Value ? ds.Rows[i]["LOAI"].ToString() : string.Empty,
                         DONVI_TINH = ds.Rows[i]["DONVI_TINH"] != DBNull.Value ? ds.Rows[i]["DONVI_TINH"].ToString() : string.Empty,
                         DON_VI_GIAO = ds.Rows[i]["DON_VI_GIAO"] != DBNull.Value ? ds.Rows[i]["DON_VI_GIAO"].ToString() : string.Empty,
+                        TEN_DONVI_GIAO = ds.Rows[i]["TEN_DONVI_GIAO"] != DBNull.Value ? ds.Rows[i]["TEN_DONVI_GIAO"].ToString() : string.Empty,
+                        TEN_PHONGBAN_GIAO = ds.Rows[i]["TEN_PHONGBAN_GIAO"] != DBNull.Value ? ds.Rows[i]["TEN_PHONGBAN_GIAO"].ToString() : string.Empty,
+                        TEN_NGUOI_GIAO = ds.Rows[i]["TEN_NGUOI_GIAO"] != DBNull.Value ? ds.Rows[i]["TEN_NGUOI_GIAO"].ToString() : string.Empty,
                         DON_VI_NHAN = ds.Rows[i]["DON_VI_NHAN"] != DBNull.Value ? ds.Rows[i]["DON_VI_NHAN"].ToString() : string.Empty,
                         NGUOI_NHAN = ds.Rows[i]["NGUOI_NHAN"] != DBNull.Value ? ds.Rows[i]["NGUOI_NHAN"].ToString() : string.Empty,
+                        TEN_DONVI_NHAN = ds.Rows[i]["TEN_DONVI_NHAN"] != DBNull.Value ? ds.Rows[i]["TEN_DONVI_NHAN"].ToString() : string.Empty,
+                        TEN_PHONGBAN_NHAN = ds.Rows[i]["TEN_PHONGBAN_NHAN"] != DBNull.Value ? ds.Rows[i]["TEN_PHONGBAN_NHAN"].ToString() : string.Empty,
+                        TEN_NGUOI_NHAN = ds.Rows[i]["TEN_NGUOI_NHAN"] != DBNull.Value ? ds.Rows[i]["TEN_NGUOI_NHAN"].ToString() : string.Empty,
                         NGUOI_GIAO = ds.Rows[i]["NGUOI_GIAO"] != DBNull.Value ? ds.Rows[i]["NGUOI_GIAO"].ToString() : string.Empty,
                         NGAY_GIAO = ds.Rows[i]["NGAY_GIAO"] != DBNull.Value ? Convert.ToDateTime(ds.Rows[i]["NGAY_GIAO"]) : DateTime.MinValue,
                         NGAY_NHAN = ds.Rows[i]["NGAY_NHAN"] != DBNull.Value ? Convert.ToDateTime(ds.Rows[i]["NGAY_NHAN"]) : DateTime.MinValue,
@@ -474,9 +484,8 @@ namespace APIPCHY_PhanQuyen.Models.QLKC.QLKC_C4_GIAONHAN_TEMCHI
                 cmd.Parameters.Add("p_NGUOI_GIAO", tc.NGUOI_GIAO);
                 cmd.Parameters.Add("p_NGAY_GIAO", tc.NGAY_GIAO);
                 cmd.Parameters.Add("p_NGAY_NHAN", tc.NGAY_NHAN);
-                //cmd.Parameters.Add("p_LOAI_BBAN", tc.LOAI_BBAN);
                 cmd.Parameters.Add("p_NOI_DUNG", tc.NOI_DUNG);
-                //cmd.Parameters.Add("p_TRANG_THAI", tc.TRANG_THAI);
+                cmd.Parameters.Add("p_LOAI_BBAN", tc.LOAI_BBAN);
                 cmd.Parameters.Add("p_Error", OracleDbType.NVarchar2, 200).Direction = ParameterDirection.Output;
                 cmd.ExecuteNonQuery();
                 transaction.Commit();
@@ -930,5 +939,68 @@ namespace APIPCHY_PhanQuyen.Models.QLKC.QLKC_C4_GIAONHAN_TEMCHI
                 }
             }
         }
+        public List<HTNguoiDungDTO> get_HT_NGUOIDUNGbyMA_DVIQLY(string p_MA_DVIQLY)
+        {
+            List<HTNguoiDungDTO> result = new List<HTNguoiDungDTO>();
+
+            using (OracleConnection cn = new ConnectionOracle().getConnection())
+            {
+                cn.Open();
+                try
+                {
+                    OracleCommand cmd = new OracleCommand();
+                    cmd.Connection = cn;
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.CommandText = @"PKG_QLKC_CHIEN.get_HT_NGUOIDUNGbyMA_DVIQLY";
+                    cmd.Parameters.Add("p_getDB", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add("p_MA_DVIQLY", OracleDbType.Varchar2).Value = p_MA_DVIQLY;
+
+                    OracleDataAdapter dap = new OracleDataAdapter(cmd);
+                    DataSet ds = new DataSet();
+                    dap.Fill(ds);
+
+                    // Xử lý dữ liệu phân trang
+                    if (ds.Tables.Count > 0)
+                    {
+                        foreach (DataRow dr in ds.Tables[0].Rows)
+                        {
+                            HTNguoiDungDTO user = new HTNguoiDungDTO
+                            {
+                                ID = dr["ID"].ToString(),
+                                DM_DONVI_ID = dr["DM_DONVI_ID"].ToString(),
+                                DM_PHONGBAN_ID = dr["DM_PHONGBAN_ID"].ToString(),
+                                DM_CHUCVU_ID = dr["DM_CHUCVU_ID"].ToString(),
+                                TEN_DANG_NHAP = dr["TEN_DANG_NHAP"].ToString(),
+                                MAT_KHAU = dr["MAT_KHAU"].ToString(),
+                                HO_TEN = dr["HO_TEN"].ToString(),
+                                EMAIL = dr["EMAIL"].ToString(),
+                                LDAP = dr["LDAP"].ToString(),
+                                TRANG_THAI = dr["TRANG_THAI"] == DBNull.Value ? (int?)null : Convert.ToInt32(dr["TRANG_THAI"]),
+                                NGAY_TAO = dr["NGAY_TAO"] == DBNull.Value ? (DateTime?)null : Convert.ToDateTime(dr["NGAY_TAO"]),
+                                NGUOI_TAO = dr["NGUOI_TAO"].ToString(),
+                                NGAY_CAP_NHAT = dr["NGAY_CAP_NHAT"] == DBNull.Value ? (DateTime?)null : Convert.ToDateTime(dr["NGAY_CAP_NHAT"]),
+                                NGUOI_CAP_NHAT = dr["NGUOI_CAP_NHAT"].ToString(),
+                                SO_DIEN_THOAI = dr["SO_DIEN_THOAI"].ToString(),
+                                GIOI_TINH = dr["GIOI_TINH"] == DBNull.Value ? (int?)null : Convert.ToInt32(dr["GIOI_TINH"]),
+                                SO_CMND = dr["SO_CMND"].ToString(),
+                                TRANG_THAI_DONG_BO = dr["TRANG_THAI_DONG_BO"] == DBNull.Value ? (int?)null : Convert.ToInt32(dr["TRANG_THAI_DONG_BO"]),
+                                ROLEID = dr["ROLEID"].ToString(),
+                                PHONG_BAN = dr["PHONG_BAN"].ToString(),
+                                ANHDAIDIEN = dr["ANHDAIDIEN"].ToString()
+                            };
+
+                            result.Add(user);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception("An error occurred while fetching data.", ex);
+                }
+            }
+
+            return result;
+        }
+
     }
 }
