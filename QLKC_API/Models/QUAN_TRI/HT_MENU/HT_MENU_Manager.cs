@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 
 namespace APIPCHY_PhanQuyen.Models.QLKC.HT_MENU
 {
@@ -103,5 +104,9 @@ namespace APIPCHY_PhanQuyen.Models.QLKC.HT_MENU
         }
 
 
+
+     
     }
+   
+
 }
