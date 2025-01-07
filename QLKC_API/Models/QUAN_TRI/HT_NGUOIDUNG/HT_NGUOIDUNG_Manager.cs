@@ -464,11 +464,11 @@ namespace APIPCHY_PhanQuyen.Models.QLKC.HT_NGUOIDUNG
             }
         }
 
-        public List<UserResponse> getHT_NGUOIDUNGByMA_DVIQLY(string ma_dviqly)
+        public List<UserResponse> getHT_NGUOIDUNGByMA_DVIQLY(string ma_dviqly,string db_maphongban)
         {
             try
             {
-                DataTable tb = helper.ExcuteReader("PKG_QLKC_SANG.get_HT_NGUOIDUNGByMA_DVIQLY", "p_ma_dviqly",ma_dviqly);
+                DataTable tb = helper.ExcuteReader("PKG_QLKC_SANG.get_HT_NGUOIDUNGByMA_DVIQLY", "p_ma_dviqly", "p_db_maphongban", ma_dviqly, db_maphongban);
                 if (tb != null && tb.Rows.Count > 0)
                 {
                     List<UserResponse> results = new List<UserResponse>();
@@ -481,7 +481,7 @@ namespace APIPCHY_PhanQuyen.Models.QLKC.HT_NGUOIDUNG
                             TEN_DANG_NHAP = tb.Rows[i]["TEN_DANG_NHAP"] != DBNull.Value ? tb.Rows[i]["TEN_DANG_NHAP"].ToString() : null,
                             TRANG_THAI = tb.Rows[i]["TRANG_THAI"] != DBNull.Value ? Convert.ToInt32(tb.Rows[i]["TRANG_THAI"]) : 0,
                             TEN_DONVI =  null,
-                            TEN_PHONGBAN =  null,
+                            TEN_PHONGBAN = tb.Rows[i]["TEN_PB"] != DBNull.Value ? tb.Rows[i]["TEN_PB"].ToString() : null,
                             TEN_CHUCVU =  null,
                             EMAIL = tb.Rows[i]["EMAIL"] != DBNull.Value ? tb.Rows[i]["EMAIL"].ToString() : null,
                         };

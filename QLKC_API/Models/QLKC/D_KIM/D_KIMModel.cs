@@ -14,5 +14,7 @@ namespace API_PCHY.Models.QLKC.D_KIM
         public DateTime? ngay_tao { get; set; }
         public string? nguoi_sua { get; set; }
         public DateTime? ngay_sua { get; set; }
+        public string? ten_dviqly { get; set; }
+        public string? ten_nguoitao { get; set; }
     }
 }

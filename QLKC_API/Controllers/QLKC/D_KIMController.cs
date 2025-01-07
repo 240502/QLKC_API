@@ -9,14 +9,14 @@ namespace API_PCHY.Controllers.QLKC
     [ApiController]
     public class D_KIMController : ControllerBase
     {
-           private D_KIMManager db = new D_KIMManager();
+        private D_KIMManager db = new D_KIMManager();
         [Route("get_ALL_D_KIMTTByMA_DVIQLY1")]
         [HttpGet]
         public IActionResult get_ALL_D_KIMTTByMA_DVIQLY1(string ma_Dviqly)
         {
             try
             {
-               
+
 
 
                 var results = db.get_ALL_D_KIMTTByMA_DVIQLY1(ma_Dviqly);
@@ -33,56 +33,70 @@ namespace API_PCHY.Controllers.QLKC
         public IActionResult getD_KimInTable()
         {
             List<D_KIMModel> list = db.getD_KimInTable();
-            return list != null ? Ok(list):NotFound();
+            return list != null ? Ok(list) : NotFound();
+        }
+        [Route("get-by-ma-dviqly")]
+        [HttpPost]
+        public IActionResult getD_KIMByMA_DVIQLY(string ma_dviqly)
+        {
+            try
+            {
+                List<D_KIMModel> list = db.get_D_KIMByMA_DVIQLY(ma_dviqly);
+                return list != null ? Ok(list) : NotFound();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
 
 
-            [HttpGet("getAll_D_KIM")]
-            public ActionResult Get()
+        [HttpGet("getAll_D_KIM")]
+        public ActionResult Get()
+        {
+            try
             {
-                try
-                {
-                    List<D_KIMModel> result = db.getALL_D_KIM();
+                List<D_KIMModel> result = db.getALL_D_KIM();
 
-                    return result != null ? Ok(result) : NotFound();
-                }
-                catch (Exception ex)
-                {
-                    return BadRequest(ex.Message);
-                }
-            }
-        [Route("insert_D_KIM")]
-            [HttpPost]
-            public IActionResult insert_D_KIM([FromBody] D_KIMModel d_KIM)
-            {
-                string result = db.insert_QLKC_D_KIM(d_KIM);
-                return string.IsNullOrEmpty(result) ? Ok() : BadRequest(result);
-            }
-
-            [Route("update_D_KIM")]
-            [HttpPut]
-            public IActionResult update_D_KIM([FromBody] D_KIMModel d_KIM)
-            {
-                string result = db.update_QLKC_D_KIM(d_KIM);
-                return string.IsNullOrEmpty(result) ? Ok() : BadRequest(result);
-            }
-
-            [Route("delete_D_KIM")]
-            [HttpDelete]
-            public IActionResult delete_D_KIM(int id_kim)
-            {
-                string result = db.delete_QLKC_D_KIM(id_kim);
-                return string.IsNullOrEmpty(result) ? Ok() : BadRequest(result);
-            }
-
-            [Route("get_D_KIM_ByID")]
-            [HttpGet]
-            public IActionResult get_D_KIM(int id_kim)
-            {
-                D_KIMModel result = db.get_D_KIM_ByID(id_kim);
                 return result != null ? Ok(result) : NotFound();
             }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        [Route("insert_D_KIM")]
+        [HttpPost]
+        public IActionResult insert_D_KIM([FromBody] D_KIMModel d_KIM)
+        {
+            string result = db.insert_QLKC_D_KIM(d_KIM);
+            return string.IsNullOrEmpty(result) ? Ok() : BadRequest(result);
+        }
+
+        [Route("update_D_KIM")]
+        [HttpPut]
+        public IActionResult update_D_KIM([FromBody] D_KIMModel d_KIM)
+        {
+            string result = db.update_QLKC_D_KIM(d_KIM);
+            return string.IsNullOrEmpty(result) ? Ok() : BadRequest(result);
+        }
+
+        [Route("delete_D_KIM")]
+        [HttpDelete]
+        public IActionResult delete_D_KIM(int id_kim)
+        {
+            string result = db.delete_QLKC_D_KIM(id_kim);
+            return string.IsNullOrEmpty(result) ? Ok() : BadRequest(result);
+        }
+
+        [Route("get_D_KIM_ByID")]
+        [HttpGet]
+        public IActionResult get_D_KIM(int id_kim)
+        {
+            D_KIMModel result = db.get_D_KIM_ByID(id_kim);
+            return result != null ? Ok(result) : NotFound();
+        }
         [Route("get_ALL_D_KIMTTByMA_DVIQLY")]
         [HttpPost]
         public IActionResult get_ALL_D_KIMTTByMA_DVIQLY([FromBody] Dictionary<string, object> formData)
@@ -108,12 +122,12 @@ namespace API_PCHY.Controllers.QLKC
 
         [Route("get_D_KIMByMA_DVIQLY")]
         [HttpPost]
-        public IActionResult get_ALL_D_KIMByMA_DVIQLY([FromBody] Dictionary<string,object> formData)
+        public IActionResult get_ALL_D_KIMByMA_DVIQLY([FromBody] Dictionary<string, object> formData)
         {
             try
             {
                 string? ma_dviqly = null; string? kimIds = null;
-                if(formData.Keys.Contains("ma_dviqly") && !string.IsNullOrEmpty(formData["ma_dviqly"].ToString()))
+                if (formData.Keys.Contains("ma_dviqly") && !string.IsNullOrEmpty(formData["ma_dviqly"].ToString()))
                 {
                     ma_dviqly = formData["ma_dviqly"].ToString();
                 }
@@ -123,25 +137,26 @@ namespace API_PCHY.Controllers.QLKC
                 }
 
                 List<D_KIMModel> results = db.get_ALL_D_KIMByMA_DVIQLY(ma_dviqly, kimIds);
-                
-                return results != null ?  Ok(results):NotFound("not found!");
-            }catch(Exception ex)    
+
+                return results != null ? Ok(results) : NotFound("not found!");
+            }
+            catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
         }
         [Route("update_MA_DVIQLY")]
         [HttpPost]
-        public IActionResult update_MADVIQLY_D_KIM([FromBody] Dictionary<string,object> formData)
+        public IActionResult update_MADVIQLY_D_KIM([FromBody] Dictionary<string, object> formData)
         {
             try
             {
                 string? ht_nguoidung_id = null;
                 string? ma_dvigiao = null;
                 string? id_kim = null;
-                if(formData.Keys.Contains("ht_nguoidung_id") && !string.IsNullOrEmpty(formData["ht_nguoidung_id"].ToString()))
+                if (formData.Keys.Contains("ht_nguoidung_id") && !string.IsNullOrEmpty(formData["ht_nguoidung_id"].ToString()))
                 {
-                    ht_nguoidung_id= formData["ht_nguoidung_id"].ToString();
+                    ht_nguoidung_id = formData["ht_nguoidung_id"].ToString();
 
                 }
                 if (formData.Keys.Contains("ma_dvigiao") && !string.IsNullOrEmpty(formData["ma_dvigiao"].ToString()))
@@ -154,64 +169,72 @@ namespace API_PCHY.Controllers.QLKC
                     id_kim = formData["id_kim"].ToString();
 
                 }
-                string result = db.update_MADVIQLY_D_KIM(ht_nguoidung_id,id_kim,ma_dvigiao);
+                string result = db.update_MADVIQLY_D_KIM(ht_nguoidung_id, id_kim, ma_dvigiao);
                 return string.IsNullOrEmpty(result) ? Ok("Success") : BadRequest(result);
-            }catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
         }
 
-            [Route("search_D_KIM")]
-            [HttpPost]
-            public IActionResult search_D_KIM_ByID([FromBody] Dictionary<string, object> formData)
+        [Route("search_D_KIM")]
+        [HttpPost]
+        public IActionResult search_D_KIM_ByID([FromBody] Dictionary<string, object> formData)
+        {
+            try
             {
-                try
-                {
-                    int? pageIndex = 0;
-                    int? pageSize = 0;
-                    string nguoi_tao = null;
-                    int? loai_ma_kim = null;
-                    int? trang_thai = null;
-                    if (formData.Keys.Contains("pageIndex") && !string.IsNullOrEmpty(formData["pageIndex"].ToString()))
-                    {
-                        pageIndex = int.Parse(formData["pageIndex"].ToString());
-                    }
-                    if (formData.Keys.Contains("pageSize") && !string.IsNullOrEmpty(formData["pageSize"].ToString()))
-                    {
-                        pageSize = int.Parse(formData["pageSize"].ToString());
-                    }
-                    if (formData.Keys.Contains("nguoi_tao") && !string.IsNullOrEmpty(formData["nguoi_tao"].ToString()))
-                    {
-                        nguoi_tao = formData["nguoi_tao"].ToString();
-                    }
-                    if (formData.Keys.Contains("loai_ma_kim") && !string.IsNullOrEmpty(formData["loai_ma_kim"].ToString()))
-                    {
-                        loai_ma_kim = int.Parse(formData["loai_ma_kim"].ToString());
-                    }
-                    if (formData.Keys.Contains("trang_thai") && !string.IsNullOrEmpty(formData["trang_thai"].ToString()))
-                    {
-                        trang_thai = int.Parse(formData["trang_thai"].ToString());
-                    }
+                int? pageIndex = 0;
+                int? pageSize = 0;
+                string? nguoi_tao = null;
+                int? loai_ma_kim = null;
+                int? trang_thai = null;
+                string? ma_dviqly = null;
 
-                    int totalItems = 0;
-                    List<D_KIMModel> result = db.search_QLKC_D_KIM(pageIndex, pageSize, nguoi_tao, loai_ma_kim, trang_thai, out totalItems);
-                    return result != null ? Ok(new
-                    {
-                        page = pageIndex,
-                        pageSize = pageSize,
-                        totalItems = totalItems,
-                        data = result,
-                        nguoi_tao = nguoi_tao,
-                        loai_ma_kim = loai_ma_kim,
-                        trang_thai = trang_thai
-                    }) : NotFound();
-
-                }
-                catch (Exception ex)
+                if (formData.Keys.Contains("pageIndex") && !string.IsNullOrEmpty(formData["pageIndex"].ToString()))
                 {
-                    return BadRequest(ex.Message);
+                    pageIndex = int.Parse(formData["pageIndex"].ToString());
                 }
+                if (formData.Keys.Contains("pageSize") && !string.IsNullOrEmpty(formData["pageSize"].ToString()))
+                {
+                    pageSize = int.Parse(formData["pageSize"].ToString());
+                }
+                if (formData.Keys.Contains("nguoiTao") && !string.IsNullOrEmpty(formData["nguoiTao"].ToString()))
+                {
+                    nguoi_tao = formData["nguoiTao"].ToString();
+                }
+                if (formData.Keys.Contains("maDviqly") && !string.IsNullOrEmpty(formData["maDviqly"].ToString()))
+                {
+                    ma_dviqly = formData["maDviqly"].ToString();
+                }
+                if (formData.Keys.Contains("loaiMaKim") && !string.IsNullOrEmpty(formData["loaiMaKim"].ToString()))
+                {
+                    loai_ma_kim = int.Parse(formData["loaiMaKim"].ToString());
+                }
+                if (formData.Keys.Contains("trangThai") && !string.IsNullOrEmpty(formData["trangThai"].ToString()))
+                {
+                    trang_thai = int.Parse(formData["trangThai"].ToString());
+                }
+
+                int totalItems = 0;
+                List<D_KIMModel> result = db.search_QLKC_D_KIM(pageSize, pageIndex, nguoi_tao, loai_ma_kim, trang_thai,ma_dviqly, out totalItems);
+                return result != null ? Ok(new
+                {
+                    page = pageIndex,
+                    pageSize = pageSize,
+                    totalItems = totalItems,
+                    data = result,
+                    nguoi_tao = nguoi_tao,
+                    loai_ma_kim = loai_ma_kim,
+                    trang_thai = trang_thai,
+                    ma_dviqly= ma_dviqly
+                }) : NotFound();
+
             }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

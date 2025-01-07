@@ -100,14 +100,11 @@ namespace API_PCHY.Models.QLKC.D_KIM
         {
             try
             {
-                Console.WriteLine("test");
-                Guid id = Guid.NewGuid();
-                string str_id = id.ToString();
-                string result = helper.ExcuteNonQuery("PKG_QLKC_NGOCANH.insert_QLKC_D_KIM", "p_Error",
-                                                    "p_ID_KIM", "p_LOAI_MA_KIM", "p_THOI_HAN", "p_TRANG_THAI", "p_MA_HIEU", "p_NGUOI_TAO",
-                                                    "p_MA_DVIQLY", "p_NGAY_TAO", "p_NGUOI_SUA", "p_NGAY_SUA",
-                                                    d_KIM.id_kim, d_KIM.loai_ma_kim, d_KIM.thoi_han, d_KIM.trang_thai, d_KIM.ma_hieu, d_KIM.nguoi_tao,
-                                                    d_KIM.ma_dviqly, d_KIM.ngay_tao, d_KIM.nguoi_sua, d_KIM.ngay_sua);
+                string result = helper.ExcuteNonQuery("PKG_QLKC_SANG.insert_QLKC_D_KIM", "p_Error",
+                                                    "p_LOAI_MA_KIM", "p_MA_HIEU", "p_NGUOI_TAO",
+                                                    "p_MA_DVIQLY",
+                                                     d_KIM.loai_ma_kim, d_KIM.ma_hieu, d_KIM.nguoi_tao,
+                                                    d_KIM.ma_dviqly);
                 return result;
             }
             catch (Exception ex)
@@ -178,6 +175,50 @@ namespace API_PCHY.Models.QLKC.D_KIM
             }
         }
 
+
+        public List<D_KIMModel> get_D_KIMByMA_DVIQLY(string ? ma_dviqly)
+        {
+            try
+            {
+                DataTable ds = helper.ExcuteReader("PKG_QLKC_SANG.get_D_KIMByMA_DVIQLY", "p_MA_DVIQLY",ma_dviqly);
+
+                if (ds.Rows.Count > 0)
+                {
+                    List<D_KIMModel> list = new List<D_KIMModel>();
+
+                    foreach (DataRow row in ds.Rows)
+                    {
+                        D_KIMModel d = new D_KIMModel
+                        {
+                            id_kim = int.Parse(row["ID_KIM"].ToString()),
+                            loai_ma_kim = row["LOAI_MA_KIM"] != DBNull.Value ? (int?)int.Parse(row["LOAI_MA_KIM"].ToString()) : null,
+                            thoi_han = row["THOI_HAN"] != DBNull.Value ? (DateTime?)DateTime.Parse(row["THOI_HAN"].ToString()) : null,
+                            trang_thai = row["TRANG_THAI"] != DBNull.Value ? (int?)int.Parse(row["TRANG_THAI"].ToString()) : null,
+                            ma_hieu = row["MA_HIEU"] != DBNull.Value ? row["MA_HIEU"].ToString() : null,
+                            nguoi_tao = row["NGUOI_TAO"] != DBNull.Value ? row["NGUOI_TAO"].ToString() : null,
+                            ma_dviqly = row["MA_DVIQLY"] != DBNull.Value ? row["MA_DVIQLY"].ToString() : null,
+                            ngay_tao = row["NGAY_TAO"] != DBNull.Value ? (DateTime?)DateTime.Parse(row["NGAY_TAO"].ToString()) : null,
+                            nguoi_sua = row["NGUOI_SUA"] != DBNull.Value ? row["NGUOI_SUA"].ToString() : null,
+                            ngay_sua = row["NGAY_SUA"] != DBNull.Value ? (DateTime?)DateTime.Parse(row["NGAY_SUA"].ToString()) : null
+                        };
+
+                        list.Add(d);
+                    }
+
+
+
+                    return list;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
         public string delete_QLKC_D_KIM(int id_kim)
         {
             try
@@ -259,13 +300,13 @@ namespace API_PCHY.Models.QLKC.D_KIM
         }
 
 
-        public List<D_KIMModel> search_QLKC_D_KIM(int? pageSize, int? pageIndex, string? nguoi_tao, int? loai_ma_kim, int? trang_thai, out int totalItems)
+        public List<D_KIMModel> search_QLKC_D_KIM(int? pageSize, int? pageIndex, string? nguoi_tao, int? loai_ma_kim, int? trang_thai,string ma_dviqly, out int totalItems)
         {
             totalItems = 0;
             try
             {
-                DataTable ds = helper.ExcuteReader("PKG_QLKC_NGOCANH.search_QLKC_D_KIM", "p_page_index", "p_page_size",
-                                                   "p_NGUOI_TAO", "p_LOAI_MA_KIM", "p_TRANG_THAI", pageIndex, pageSize, nguoi_tao, loai_ma_kim, trang_thai);
+                DataTable ds = helper.ExcuteReader("PKG_QLKC_SANG.search_QLKC_D_KIM", "p_page_index", "p_page_size",
+                                                   "p_NGUOI_TAO", "p_LOAI_MA_KIM", "p_TRANG_THAI", "p_MA_DVIQLY", pageIndex, pageSize, nguoi_tao, loai_ma_kim, trang_thai, ma_dviqly);
                 var count = ds.Rows.Count;
 
                 if (pageSize > 0 && pageIndex > 0 && count > 0)
@@ -293,6 +334,10 @@ namespace API_PCHY.Models.QLKC.D_KIM
                     d.ngay_tao = ds.Rows[i]["NGAY_TAO"] != DBNull.Value ? DateTime.Parse(ds.Rows[i]["NGAY_TAO"].ToString()) : null;
                     d.nguoi_sua = ds.Rows[i]["NGUOI_SUA"] != DBNull.Value ? ds.Rows[i]["NGUOI_SUA"].ToString() : null;
                     d.ngay_sua = ds.Rows[i]["NGAY_SUA"] != DBNull.Value ? DateTime.Parse(ds.Rows[i]["NGAY_SUA"].ToString()) : null;
+                    d.ten_dviqly = ds.Rows[i]["TEN_DVIQLY"] != DBNull.Value ? (ds.Rows[i]["TEN_DVIQLY"].ToString()) : null;
+                    d.ten_nguoitao= ds.Rows[i]["TEN_NGUOITAO"] != DBNull.Value ? (ds.Rows[i]["TEN_NGUOITAO"].ToString()) : null;
+
+
 
                     list.Add(d);
                 }

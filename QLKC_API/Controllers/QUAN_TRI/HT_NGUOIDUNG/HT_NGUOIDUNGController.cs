@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System;
 using APIPCHY_PhanQuyen.Models.QLKC.HT_MENU;
 using Microsoft.AspNetCore.Routing;
+using System.Linq;
 
 namespace APIPCHY_PhanQuyen.Controllers.QLKC.HT_NGUOIDUNG
 {
@@ -107,15 +108,26 @@ namespace APIPCHY_PhanQuyen.Controllers.QLKC.HT_NGUOIDUNG
 
         }
         [Route("getHT_NGUOIDUNGByMA_DVIQLY")]
-        [HttpGet]
-         
-        public IActionResult getHT_NGUOIDUNGByMA_DVIQLY(string ma_dviqly)
+        [HttpPost]
+
+        public IActionResult getHT_NGUOIDUNGByMA_DVIQLY([FromBody] Dictionary<string, object> formData)
         {
             try
             {
-                var reuslt = _manager.getHT_NGUOIDUNGByMA_DVIQLY(ma_dviqly);
+                string ma_dviqly = null;
+                string db_maphongban = null;
+                if (formData.Keys.Contains("ma_dviqly") && !string.IsNullOrEmpty(formData["ma_dviqly"].ToString()))
+                {
+                    ma_dviqly = formData["ma_dviqly"].ToString();
+                }
+                if (formData.Keys.Contains("db_maphongban") && !string.IsNullOrEmpty(formData["ma_dviqly"].ToString()))
+                {
+                    db_maphongban = formData["db_maphongban"].ToString();
+                }
+                var reuslt = _manager.getHT_NGUOIDUNGByMA_DVIQLY(ma_dviqly, db_maphongban);
                 return reuslt != null ? Ok(reuslt) : NotFound("not found!");
-            }catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
@@ -209,7 +221,7 @@ namespace APIPCHY_PhanQuyen.Controllers.QLKC.HT_NGUOIDUNG
             }
         }
 
-     
+
 
 
     }
