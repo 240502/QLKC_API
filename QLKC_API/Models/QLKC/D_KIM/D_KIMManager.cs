@@ -100,12 +100,21 @@ namespace API_PCHY.Models.QLKC.D_KIM
         {
             try
             {
-                string result = helper.ExcuteNonQuery("PKG_QLKC_SANG.insert_QLKC_D_KIM", "p_Error",
-                                                    "p_LOAI_MA_KIM", "p_MA_HIEU", "p_NGUOI_TAO",
-                                                    "p_MA_DVIQLY",
-                                                     d_KIM.loai_ma_kim, d_KIM.ma_hieu, d_KIM.nguoi_tao,
-                                                    d_KIM.ma_dviqly);
-                return result;
+                D_KIMModel existsKim = get_D_KimByMA_HIEU(d_KIM.ma_hieu);
+                if (existsKim != null) {
+
+                    return "Mã hiệu kìm đã tồn tại!";
+                }
+                else
+                {
+                    string result = helper.ExcuteNonQuery("PKG_QLKC_SANG.insert_QLKC_D_KIM", "p_Error",
+                                                  "p_LOAI_MA_KIM", "p_MA_HIEU", "p_NGUOI_TAO",
+                                                  "p_MA_DVIQLY",
+                                                   d_KIM.loai_ma_kim, d_KIM.ma_hieu, d_KIM.nguoi_tao,
+                                                  d_KIM.ma_dviqly);
+                    return result;
+                }
+              
             }
             catch (Exception ex)
             {
@@ -117,14 +126,28 @@ namespace API_PCHY.Models.QLKC.D_KIM
         {
             try
             {
-                string str_id = d_KIM.id_kim.ToString();
-                string result = helper.ExcuteNonQuery(
-                    "PKG_QLKC_NGOCANH.update_QLKC_D_KIM", "p_Error",
-                    "p_ID_KIM", "p_LOAI_MA_KIM", "p_THOI_HAN", "p_TRANG_THAI", "p_MA_HIEU", "p_NGUOI_TAO",
-                    "p_MA_DVIQLY", "p_NGAY_TAO", "p_NGUOI_SUA", "p_NGAY_SUA",
-                    d_KIM.id_kim, d_KIM.loai_ma_kim, d_KIM.thoi_han, d_KIM.trang_thai, d_KIM.ma_hieu, d_KIM.nguoi_tao,
-                    d_KIM.ma_dviqly, d_KIM.ngay_tao, d_KIM.nguoi_sua, d_KIM.ngay_sua);
-                return result;
+                string err_msg = "";
+                D_KIMModel d_kim = get_D_KIM_ByID(d_KIM.id_kim);
+                if (d_kim.ma_hieu != d_KIM.ma_hieu)
+                {
+                    D_KIMModel existsKim = get_D_KimByMA_HIEU(d_KIM.ma_hieu);
+                    if (existsKim != null)
+                    {
+
+                        err_msg= "Mã hiệu kìm đã tồn tại!";
+                    }
+                }
+                else
+                {
+                    string str_id = d_KIM.id_kim.ToString();
+                    err_msg = helper.ExcuteNonQuery(
+                        "PKG_QLKC_NGOCANH.update_QLKC_D_KIM", "p_Error",
+                        "p_ID_KIM", "p_LOAI_MA_KIM", "p_THOI_HAN", "p_TRANG_THAI", "p_MA_HIEU", "p_NGUOI_TAO",
+                        "p_MA_DVIQLY", "p_NGAY_TAO", "p_NGUOI_SUA", "p_NGAY_SUA",
+                        d_KIM.id_kim, d_KIM.loai_ma_kim, d_KIM.thoi_han, d_KIM.trang_thai, d_KIM.ma_hieu, d_KIM.nguoi_tao,
+                        d_KIM.ma_dviqly, d_KIM.ngay_tao, d_KIM.nguoi_sua, d_KIM.ngay_sua);
+                }
+                return err_msg;
             }
             catch (Exception ex)
             {
@@ -174,8 +197,6 @@ namespace API_PCHY.Models.QLKC.D_KIM
                 throw new Exception("Error retrieving data: " + ex.Message, ex);
             }
         }
-
-
         public List<D_KIMModel> get_D_KIMByMA_DVIQLY(string ? ma_dviqly)
         {
             try
@@ -298,8 +319,6 @@ namespace API_PCHY.Models.QLKC.D_KIM
                 throw ex;
             }
         }
-
-
         public List<D_KIMModel> search_QLKC_D_KIM(int? pageSize, int? pageIndex, string? nguoi_tao, int? loai_ma_kim, int? trang_thai,string ma_dviqly, out int totalItems)
         {
             totalItems = 0;
@@ -420,6 +439,42 @@ namespace API_PCHY.Models.QLKC.D_KIM
             catch (Exception ex)
             {
                 return null;
+            }
+        }
+
+
+        public D_KIMModel get_D_KimByMA_HIEU(string? ma_hieu)
+        {
+            try
+            {
+                DataTable ds = helper.ExcuteReader("PKG_QLKC_SANG.get_QLKC_D_KimByMA_HIEU", "p_MA_HIEU", ma_hieu);
+
+                if (ds.Rows.Count > 0)
+                {
+                    D_KIMModel d_KIM = new D_KIMModel();
+
+                    d_KIM.id_kim = int.Parse(ds.Rows[0]["ID_KIM"].ToString());
+                    d_KIM.loai_ma_kim = ds.Rows[0]["LOAI_MA_KIM"] != DBNull.Value ? int.Parse(ds.Rows[0]["LOAI_MA_KIM"].ToString()) : null;
+                    d_KIM.thoi_han = ds.Rows[0]["THOI_HAN"] != DBNull.Value ? DateTime.Parse(ds.Rows[0]["THOI_HAN"].ToString()) : null;
+                    d_KIM.trang_thai = ds.Rows[0]["TRANG_THAI"] != DBNull.Value ? int.Parse(ds.Rows[0]["TRANG_THAI"].ToString()) : null;
+                    d_KIM.ma_hieu = ds.Rows[0]["MA_HIEU"] != DBNull.Value ? ds.Rows[0]["MA_HIEU"].ToString() : null;
+                    d_KIM.nguoi_tao = ds.Rows[0]["NGUOI_TAO"] != DBNull.Value ? ds.Rows[0]["NGUOI_TAO"].ToString() : null;
+                    d_KIM.ma_dviqly = ds.Rows[0]["MA_DVIQLY"] != DBNull.Value ? ds.Rows[0]["MA_DVIQLY"].ToString() : null;
+                    d_KIM.ngay_tao = ds.Rows[0]["NGAY_TAO"] != DBNull.Value ? DateTime.Parse(ds.Rows[0]["NGAY_TAO"].ToString()) : null;
+                    d_KIM.nguoi_sua = ds.Rows[0]["NGUOI_SUA"] != DBNull.Value ? ds.Rows[0]["NGUOI_SUA"].ToString() : null;
+                    d_KIM.ngay_sua = ds.Rows[0]["NGAY_SUA"] != DBNull.Value ? DateTime.Parse(ds.Rows[0]["NGAY_SUA"].ToString()) : null;
+
+                    return d_KIM;
+
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
             }
         }
     }

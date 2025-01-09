@@ -71,7 +71,7 @@ namespace API_PCHY.Controllers.QLKC
         public IActionResult insert_D_KIM([FromBody] D_KIMModel d_KIM)
         {
             string result = db.insert_QLKC_D_KIM(d_KIM);
-            return string.IsNullOrEmpty(result) ? Ok() : BadRequest(result);
+            return string.IsNullOrEmpty(result) ? Ok() : BadRequest(new { message=result });
         }
 
         [Route("update_D_KIM")]
@@ -79,7 +79,7 @@ namespace API_PCHY.Controllers.QLKC
         public IActionResult update_D_KIM([FromBody] D_KIMModel d_KIM)
         {
             string result = db.update_QLKC_D_KIM(d_KIM);
-            return string.IsNullOrEmpty(result) ? Ok() : BadRequest(result);
+            return string.IsNullOrEmpty(result) ? Ok() : BadRequest(new { message = result });
         }
 
         [Route("delete_D_KIM")]
