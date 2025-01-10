@@ -1,6 +1,7 @@
 ﻿using APIPCHY_PhanQuyen.Models.QLKC.QLKC_NHAP_CHI_TEM;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,6 +40,23 @@ namespace APIPCHY_PhanQuyen.Controllers.QLKC.QLKC_NHAP_CHI_TEM
         public IActionResult get_BBAN_NHAP_CHI_TEM(int id)
         {
             return Ok(db.get_BBAN_NHAP_CHI_TEM(id));
+        }
+        [Route("get_QLKC_NHAP_CHI_TEMGroup")]
+        [HttpGet]
+        public IActionResult get_QLKC_NHAP_CHI_TEMGroup()
+        {
+            var results = db.get_QLKC_NHAP_CHI_TEMGroup();
+            if (results != null && results.Count > 0)
+            {
+                var jsonResult = JsonConvert.SerializeObject(results);
+                return Ok(jsonResult);
+            }
+            else
+            {
+                Console.WriteLine("Không có kết quả nào trong response.");
+                return NotFound();
+            }
+
         }
         [Route("getAll_QLKC_NHAP_CHI_TEM")]
         [HttpGet]

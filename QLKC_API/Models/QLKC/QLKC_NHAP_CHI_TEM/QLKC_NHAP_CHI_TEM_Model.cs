@@ -2,6 +2,12 @@
 
 namespace APIPCHY_PhanQuyen.Models.QLKC.QLKC_NHAP_CHI_TEM
 {
+    public class QLKC_NHAP_CHI_TEMGroupRes
+    {
+        public int? so_luong_tem;
+        public int? so_luong_chi;
+        public string? ma_dviqly;
+    }
     public class QLKC_NHAP_CHI_TEM_Model
     {
         public int ID_BIENBAN { get; set; } // ID_BIENBAN: NUMBER

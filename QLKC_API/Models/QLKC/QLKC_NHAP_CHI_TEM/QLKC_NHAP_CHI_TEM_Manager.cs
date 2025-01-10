@@ -4,12 +4,61 @@ using System.Collections.Generic;
 using System.Data;
 using System;
 using APIPCHY_PhanQuyen.Models.QLKC.HT_PHANQUYEN;
+using Microsoft.OpenApi.Any;
+using System.Linq;
 
 namespace APIPCHY_PhanQuyen.Models.QLKC.QLKC_NHAP_CHI_TEM
 {
     public class QLKC_NHAP_CHI_TEM_Manager
     {
         DataHelper helper = new DataHelper();
+
+        public List<QLKC_NHAP_CHI_TEMGroupRes> get_QLKC_NHAP_CHI_TEMGroup()
+        {
+            try
+            {
+                DataTable tb = helper.ExcuteReader("PKG_QLKC_SANG.get_QLKC_NHAP_CHI_TEMGroup");
+                if (tb != null)
+                {
+                    Dictionary<string, QLKC_NHAP_CHI_TEMGroupRes> results = new Dictionary<string, QLKC_NHAP_CHI_TEMGroupRes>();
+
+                    foreach (DataRow row in tb.Rows)
+                    {
+                        string ma_dviqly = row["MA_DVIQLY"] != DBNull.Value ? row["MA_DVIQLY"].ToString() : null;
+                        if (!string.IsNullOrEmpty(ma_dviqly))
+                        {
+                            // Nếu chưa có trong dictionary, tạo mới đối tượng
+                            if (!results.ContainsKey(ma_dviqly))
+                            {
+                                results[ma_dviqly] = new QLKC_NHAP_CHI_TEMGroupRes { ma_dviqly = ma_dviqly };
+                            }
+
+                            // Cập nhật giá trị tùy theo loại
+                            var model = results[ma_dviqly];
+                            if (row["LOAI"].ToString() == "chi")
+                            {
+                                model.so_luong_chi = row["SO_LUONG"] != DBNull.Value ? (int?)int.Parse(row["SO_LUONG"].ToString()) : null;
+                            }
+                            else
+                            {
+                                model.so_luong_tem = row["SO_LUONG"] != DBNull.Value ? (int?)int.Parse(row["SO_LUONG"].ToString()) : null;
+                            }
+                        }
+                    }
+
+                    return results.Values.ToList();
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
         public List<QLKC_NHAP_CHI_TEM_Model> search_QLKC_NHAP_CHI_TEM(int? pageIndex, int? pageSize, string loai, string donViTinh, out int totalItems)
         {
             totalItems = 0;
