@@ -16,5 +16,7 @@ namespace QLKC_API.Models.QLKC.C3_GIAONHAN_TEMCHI
         public DateTime? ngay_nhan { get; set; }
         public int? trang_thai { get; set; }
         public int? loai_bban { get; set; }
+        public string? ten_pb { get; set; }
+        public string? ten_dv { get; set; }
     }
 }

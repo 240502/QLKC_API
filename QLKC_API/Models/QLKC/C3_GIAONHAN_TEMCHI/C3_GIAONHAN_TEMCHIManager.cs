@@ -34,6 +34,8 @@ namespace QLKC_API.Models.QLKC.C3_GIAONHAN_TEMCHI
                         tcgn.ngay_nhan = ds.Rows[i]["NGAY_NHAN"] != DBNull.Value ? DateTime.Parse(ds.Rows[i]["NGAY_NHAN"].ToString()) : null;
                         tcgn.trang_thai = ds.Rows[i]["TRANG_THAI"] != DBNull.Value ? int.Parse(ds.Rows[i]["TRANG_THAI"].ToString()) : null;
                         tcgn.loai_bban = ds.Rows[i]["LOAI_BBAN"] != DBNull.Value ? int.Parse(ds.Rows[i]["LOAI_BBAN"].ToString()) : null;
+                        tcgn.ten_dv = ds.Rows[i]["TEN_DV"] != DBNull.Value ? ds.Rows[i]["TEN_DV"].ToString() : null;
+                        tcgn.ten_pb = ds.Rows[i]["TEN_PB"] != DBNull.Value ? ds.Rows[i]["TEN_PB"].ToString() : null;
 
                         result.Add(tcgn);
                     }
@@ -118,18 +120,21 @@ namespace QLKC_API.Models.QLKC.C3_GIAONHAN_TEMCHI
                     {
                         C3_GIAONHAN_TEMCHI_Model model = new C3_GIAONHAN_TEMCHI_Model();
 
-                        model.id = int.Parse(db.Rows[0]["ID"].ToString());
-                        model.soluong = db.Rows[0]["SOLUONG"] != DBNull.Value ? int.Parse(db.Rows[0]["SOLUONG"].ToString()) : null;
-                        model.loai = db.Rows[0]["LOAI"] != DBNull.Value ? db.Rows[0]["LOAI"].ToString() : null;
-                        model.donvi_tinh = db.Rows[0]["DONVI_TINH"] != DBNull.Value ? db.Rows[0]["DONVI_TINH"].ToString() : null;
-                        model.don_vi_giao = db.Rows[0]["DON_VI_GIAO"] != DBNull.Value ? db.Rows[0]["DON_VI_GIAO"].ToString() : null;
-                        model.don_vi_nhan = db.Rows[0]["DON_VI_NHAN"] != DBNull.Value ? db.Rows[0]["DON_VI_NHAN"].ToString() : null;
-                        model.nguoi_nhan = db.Rows[0]["NGUOI_NHAN"] != DBNull.Value ? db.Rows[0]["NGUOI_NHAN"].ToString() : null;
-                        model.nguoi_giao = db.Rows[0]["NGUOI_GIAO"] != DBNull.Value ? db.Rows[0]["NGUOI_GIAO"].ToString() : null;
-                        model.ngay_giao = db.Rows[0]["NGAY_GIAO"] != DBNull.Value ? DateTime.Parse(db.Rows[0]["NGAY_GIAO"].ToString()) : null;
-                        model.ngay_nhan = db.Rows[0]["NGAY_NHAN"] != DBNull.Value ? DateTime.Parse(db.Rows[0]["NGAY_NHAN"].ToString()) : null;
-                        model.trang_thai = db.Rows[0]["TRANG_THAI"] != DBNull.Value ? Convert.ToInt32(db.Rows[i]["TRANG_THAI"]) : 0;
-                        model.loai_bban = db.Rows[0]["LOAI_BBAN"] != DBNull.Value ? Convert.ToInt32(db.Rows[i]["LOAI_BBAN"]) : 0;
+                        model.id = int.Parse(db.Rows[i]["ID"].ToString());
+
+                        model.soluong = db.Rows[i]["SOLUONG"] != DBNull.Value ? int.Parse(db.Rows[i]["SOLUONG"].ToString()) : null;
+                        model.loai = db.Rows[i]["LOAI"] != DBNull.Value ? db.Rows[i]["LOAI"].ToString() : null;
+                        model.donvi_tinh = db.Rows[i]["DONVI_TINH"] != DBNull.Value ? db.Rows[i]["DONVI_TINH"].ToString() : null;
+                        model.don_vi_giao = db.Rows[i]["DON_VI_GIAO"] != DBNull.Value ? db.Rows[i]["DON_VI_GIAO"].ToString() : null;
+                        model.don_vi_nhan = db.Rows[i]["DON_VI_NHAN"] != DBNull.Value ? db.Rows[i]["DON_VI_NHAN"].ToString() : null;
+                        model.nguoi_nhan = db.Rows[i]["NGUOI_NHAN"] != DBNull.Value ? db.Rows[i]["NGUOI_NHAN"].ToString() : null;
+                        model.nguoi_giao = db.Rows[i]["NGUOI_GIAO"] != DBNull.Value ? db.Rows[i]["NGUOI_GIAO"].ToString() : null;
+                        model.ngay_giao = db.Rows[i]["NGAY_GIAO"] != DBNull.Value ? DateTime.Parse(db.Rows[i]["NGAY_GIAO"].ToString()) : null;
+                        model.ngay_nhan = db.Rows[i]["NGAY_NHAN"] != DBNull.Value ? DateTime.Parse(db.Rows[i]["NGAY_NHAN"].ToString()) : null;
+                        model.trang_thai = db.Rows[i]["TRANG_THAI"] != DBNull.Value ? Convert.ToInt32(db.Rows[i]["TRANG_THAI"]) : 0;
+                        model.loai_bban = db.Rows[i]["LOAI_BBAN"] != DBNull.Value ? Convert.ToInt32(db.Rows[i]["LOAI_BBAN"]) : 0;
+                        model.ten_dv = db.Rows[i]["TEN_DV"] != DBNull.Value ? db.Rows[i]["TEN_DV"].ToString() : null;
+                        model.ten_pb = db.Rows[i]["TEN_PB"] != DBNull.Value ? db.Rows[i]["TEN_PB"].ToString() : null;
 
 
                         results.Add(model);
