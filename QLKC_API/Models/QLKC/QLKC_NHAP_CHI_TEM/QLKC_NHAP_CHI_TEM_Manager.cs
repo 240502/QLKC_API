@@ -154,6 +154,56 @@ namespace APIPCHY_PhanQuyen.Models.QLKC.QLKC_NHAP_CHI_TEM
                 }
             }
         }
+
+        public string update_SO_LUONG_NHAP_TEM_CHI(int id_bienban, int? so_luong)
+        {
+            try
+            {
+                string result = helper.ExcuteNonQuery("PKG_QLKC_SANG.update_SO_LUONG_NHAP_TEM_CHI", "p_Error", "p_ID_BIENBAN", "p_SO_LUONG",id_bienban,so_luong);
+                return result;
+            }catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public QLKC_NHAP_CHI_TEM_Model get_NHAP_CHI_TEMByMA_DVIQLYANDLOAI(string ma_dviqly, string loai)
+        {
+           
+            try
+            {
+              
+                DataTable dr = helper.ExcuteReader("PKG_QLKC_SANG.get_NHAP_CHI_TEMByMA_DVIQLYANDLOAI","p_MA_DVIQLY","p_LOAI",ma_dviqly,loai);
+
+                if(dr != null)
+                {
+                 
+                        QLKC_NHAP_CHI_TEM_Model nctm = new QLKC_NHAP_CHI_TEM_Model();
+                        nctm.ID_BIENBAN = dr.Rows[0]["ID_BIENBAN"] != DBNull.Value ? Convert.ToInt32(dr.Rows[0]["ID_BIENBAN"]) : 0;
+                        nctm.LOAI = dr.Rows[0]["LOAI"] != DBNull.Value ? dr.Rows[0]["LOAI"].ToString() : string.Empty;
+                        nctm.SO_LUONG = dr.Rows[0]["SO_LUONG"] != DBNull.Value ? Convert.ToInt32(dr.Rows[0]["SO_LUONG"]) : 0; ;
+                        nctm.DON_VI_TINH = dr.Rows[0]["DON_VI_TINH"] != DBNull.Value ? dr.Rows[0]["DON_VI_TINH"].ToString() : string.Empty;
+                        nctm.NGAY_TAO = dr.Rows[0]["NGAY_TAO"] != DBNull.Value ? Convert.ToDateTime(dr.Rows[0]["NGAY_TAO"]) : DateTime.MinValue;
+                        nctm.NGUOI_TAO = dr.Rows[0]["NGUOI_TAO"] != DBNull.Value ? dr.Rows[0]["NGUOI_TAO"].ToString() : string.Empty;
+                        nctm.NGAY_SUA = dr.Rows[0]["NGAY_SUA"] != DBNull.Value ? Convert.ToDateTime(dr.Rows[0]["NGAY_SUA"]) : DateTime.MinValue;
+                        nctm.NGUOI_SUA = dr.Rows[0]["NGUOI_SUA"] != DBNull.Value ? dr.Rows[0]["NGUOI_SUA"].ToString() : string.Empty;
+                        nctm.MA_DVIQLY = dr.Rows[0]["MA_DVIQLY"] != DBNull.Value ? dr.Rows[0]["MA_DVIQLY"].ToString() : string.Empty;
+                return nctm;
+
+                }
+                else
+                {
+                    return null;
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            
+          
+        }
         public List<QLKC_NHAP_CHI_TEM_Model> getAll_QLKC_NHAP_CHI_TEM()
         {
             string strErr = "";
@@ -187,6 +237,8 @@ namespace APIPCHY_PhanQuyen.Models.QLKC.QLKC_NHAP_CHI_TEM
                     nctm.NGUOI_TAO = dr["NGUOI_TAO"] != DBNull.Value ? dr["NGUOI_TAO"].ToString() : string.Empty;
                     nctm.NGAY_SUA = dr["NGAY_SUA"] != DBNull.Value ? Convert.ToDateTime(dr["NGAY_SUA"]) : DateTime.MinValue;
                     nctm.NGUOI_SUA = dr["NGUOI_SUA"] != DBNull.Value ? dr["NGUOI_SUA"].ToString() : string.Empty;
+                    nctm.MA_DVIQLY = dr["MA_DVIQLY"] != DBNull.Value ? dr["MA_DVIQLY"].ToString() : string.Empty;
+
                     result.Add(nctm);
                 }
                 return result;

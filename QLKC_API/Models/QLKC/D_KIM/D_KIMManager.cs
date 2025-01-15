@@ -109,9 +109,9 @@ namespace API_PCHY.Models.QLKC.D_KIM
                 {
                     string result = helper.ExcuteNonQuery("PKG_QLKC_SANG.insert_QLKC_D_KIM", "p_Error",
                                                   "p_LOAI_MA_KIM", "p_MA_HIEU", "p_NGUOI_TAO",
-                                                  "p_MA_DVIQLY",
+                                                  "p_MA_DVIQLY", "p_THOI_HAN",
                                                    d_KIM.loai_ma_kim, d_KIM.ma_hieu, d_KIM.nguoi_tao,
-                                                  d_KIM.ma_dviqly);
+                                                  d_KIM.ma_dviqly,d_KIM.thoi_han);
                     return result;
                 }
               
@@ -141,11 +141,9 @@ namespace API_PCHY.Models.QLKC.D_KIM
                 {
                     string str_id = d_KIM.id_kim.ToString();
                     err_msg = helper.ExcuteNonQuery(
-                        "PKG_QLKC_NGOCANH.update_QLKC_D_KIM", "p_Error",
-                        "p_ID_KIM", "p_LOAI_MA_KIM", "p_THOI_HAN", "p_TRANG_THAI", "p_MA_HIEU", "p_NGUOI_TAO",
-                        "p_MA_DVIQLY", "p_NGAY_TAO", "p_NGUOI_SUA", "p_NGAY_SUA",
-                        d_KIM.id_kim, d_KIM.loai_ma_kim, d_KIM.thoi_han, d_KIM.trang_thai, d_KIM.ma_hieu, d_KIM.nguoi_tao,
-                        d_KIM.ma_dviqly, d_KIM.ngay_tao, d_KIM.nguoi_sua, d_KIM.ngay_sua);
+                        "PKG_QLKC_SANG.update_D_KIM", "p_Error",
+                        "p_ID_KIM", "p_LOAI_MA_KIM", "p_MA_HIEU", "p_NGUOI_SUA", "p_THOI_HAN", "p_TRANG_THAI",
+                        d_KIM.id_kim, d_KIM.loai_ma_kim, d_KIM.ma_hieu, d_KIM.nguoi_sua, d_KIM.thoi_han,d_KIM.trang_thai);
                 }
                 return err_msg;
             }

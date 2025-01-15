@@ -105,12 +105,12 @@ namespace QLKC_API.Models.QLKC.C3_GIAONHAN_TEMCHI
         }
 
 
-        public List<C3_GIAONHAN_TEMCHI_Model> search_QLKC_C3_GIAONHAN_TEMCHI(int? pageIndex, int? pageSize, string? don_vi_giao, string? don_vi_nhan, int? trang_thai, string? loai, out int totalItems)
+        public List<C3_GIAONHAN_TEMCHI_Model> search_QLKC_C3_GIAONHAN_TEMCHI(int? pageIndex, int? pageSize, string? don_vi_giao, string? don_vi_nhan, int? trang_thai, string? loai,string ht_nguoi_dung_id, out int totalItems)
         {
             totalItems = 0;
             try
             {
-                DataTable db = helper.ExcuteReader("PKG_QLKC_HUYEN.search_QLKC_C3_GIAONHAN_TEMCHI", "p_page_index", "p_page_size", "p_don_vi_giao", "p_don_vi_nhan", "p_trang_thai", "p_loai", pageIndex, pageSize, don_vi_giao, don_vi_nhan, trang_thai, loai);
+                DataTable db = helper.ExcuteReader("PKG_QLKC_HUYEN.search_QLKC_C3_GIAONHAN_TEMCHI", "p_page_index", "p_page_size", "p_don_vi_giao", "p_don_vi_nhan", "p_trang_thai", "p_loai", "p_HT_NGUOIDUNG_ID", pageIndex, pageSize, don_vi_giao, don_vi_nhan, trang_thai, loai,ht_nguoi_dung_id);
 
                 if (db != null)
                 {

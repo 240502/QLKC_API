@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using APIPCHY_PhanQuyen.Models.QLKC.QLKC_NHAP_CHI_TEM;
 
 namespace APIPCHY_PhanQuyen.Controllers.C3_GIAONHAN_TEMCHI
 {
@@ -11,6 +12,7 @@ namespace APIPCHY_PhanQuyen.Controllers.C3_GIAONHAN_TEMCHI
     public class C3_GIAONHAN_TEMCHIController : ControllerBase
     {
         C3_GIAONHAN_TEMCHI_Manager db = new C3_GIAONHAN_TEMCHI_Manager();
+        QLKC_NHAP_CHI_TEM_Manager chi_tem_db = new QLKC_NHAP_CHI_TEM_Manager();
 
         [HttpGet("getAll_QLKC_C3_GIAONHAN_TEMCHI")]
         public ActionResult Get()
@@ -71,6 +73,7 @@ namespace APIPCHY_PhanQuyen.Controllers.C3_GIAONHAN_TEMCHI
                 string don_vi_nhan = null;
                 int? trang_thai = null;
                 string? loai = null;
+                string ht_nguoi_dung_id = null;
                 if (formData.TryGetValue("pageIndex", out var pageIndexValue) && int.TryParse(pageIndexValue?.ToString(), out var parsedPageIndex))
                 {
                     pageIndex = parsedPageIndex;
@@ -91,6 +94,12 @@ namespace APIPCHY_PhanQuyen.Controllers.C3_GIAONHAN_TEMCHI
                     don_vi_nhan = don_vi_nhan_value?.ToString();
                 }
 
+
+                if(formData.Keys.Contains("ht_nguoi_dung_id") && !string.IsNullOrEmpty(formData["ht_nguoi_dung_id"].ToString()))
+                {
+                    ht_nguoi_dung_id = formData["ht_nguoi_dung_id"].ToString();
+                }
+
                 if (formData.TryGetValue("trang_thai", out var trang_thai_value) && int.TryParse(trang_thai_value?.ToString(), out var parsedTrangThai))
                 {
                     trang_thai = parsedTrangThai;
@@ -102,7 +111,7 @@ namespace APIPCHY_PhanQuyen.Controllers.C3_GIAONHAN_TEMCHI
                 }
 
                 int totalItems = 0;
-                List<C3_GIAONHAN_TEMCHI_Model> result = db.search_QLKC_C3_GIAONHAN_TEMCHI(pageIndex, pageSize, don_vi_giao, don_vi_nhan, trang_thai, loai, out totalItems);
+                List<C3_GIAONHAN_TEMCHI_Model> result = db.search_QLKC_C3_GIAONHAN_TEMCHI(pageIndex, pageSize, don_vi_giao, don_vi_nhan, trang_thai, loai, ht_nguoi_dung_id, out totalItems);
                 return result != null ? Ok(new
                 {
                     page = pageIndex,
@@ -158,7 +167,22 @@ namespace APIPCHY_PhanQuyen.Controllers.C3_GIAONHAN_TEMCHI
         public IActionResult update_kyC2_PM_QLKC_C3_GIAONHAN_TEMCHI(int id)
         {
             string result = db.update_kyC2_PM_QLKC_C3_GIAONHAN_TEMCHI(id);
-
+            C3_GIAONHAN_TEMCHI_Model model = db.get_QLKC_C3_GIAONHAN_TEMCHI_ByID(id);
+            QLKC_NHAP_CHI_TEM_Model nctm = chi_tem_db.get_NHAP_CHI_TEMByMA_DVIQLYANDLOAI(model.don_vi_nhan,model.loai);
+            Console.WriteLine(nctm);
+    
+            int? new_so_luong = nctm.SO_LUONG + model.soluong;
+            if(nctm != null)
+            {
+                
+                string res = chi_tem_db.update_SO_LUONG_NHAP_TEM_CHI(nctm.ID_BIENBAN, new_so_luong);
+                Console.WriteLine(res);
+                if(!string.IsNullOrEmpty(res))
+                {
+                    return BadRequest(new { message = res });
+                }
+            }
+            
             if (string.IsNullOrEmpty(result))
             {
                 return Ok(new { message = "Update successful" });

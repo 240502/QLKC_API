@@ -18,5 +18,7 @@ namespace APIPCHY_PhanQuyen.Models.QLKC.QLKC_NHAP_CHI_TEM
         public string NGUOI_TAO { get; set; } // NGUOI_TAO: NVARCHAR2 (50)
         public DateTime? NGAY_TAO { get; set; } // NGAY_TAO: DATE
         public int SO_LUONG { get; set; } // SO_LUONG: NUMBER
+        public string MA_DVIQLY { get; set; } // SO_LUONG: NUMBER
+
     }
 }
